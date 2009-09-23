@@ -3,11 +3,11 @@
 
 // About dialog's event loop.
 // Not needed because we only have a default OK button.
-//BEGIN_EVENT_TABLE( wxTest_1About, AboutDlg )
-	//EVT_BUTTON( wxID_OK, wxTest_1About::OnOK )
+//BEGIN_EVENT_TABLE( About, AboutDlg )
+	//EVT_BUTTON( wxID_OK, About::OnOK )
 //END_EVENT_TABLE()
 
-wxTest_1About::wxTest_1About( wxWindow* parent )
+About::About( wxWindow* parent )
 	: AboutDlg( parent, -1 )
 {
 	// Get the file version.

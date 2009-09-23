@@ -57,7 +57,7 @@ AboutDlg::AboutDlg( wxWindow* parent, int id, wxString title, wxPoint pos, wxSiz
 	
 	wxBoxSizer* textSizer;
 	textSizer = new wxBoxSizer( wxVERTICAL );
-	m_staticAppName = new wxStaticText( this, ID_ABOUT_APPNAME, wxT("wxTest_1"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticAppName = new wxStaticText( this, ID_ABOUT_APPNAME, wxT("DawgGUI"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticAppName->SetFont( wxFont( 10, 74, 90, 92, false, wxT("Arial") ) );
 	
 	textSizer->Add( m_staticAppName, 0, wxTOP|wxRIGHT|wxLEFT, 5 );

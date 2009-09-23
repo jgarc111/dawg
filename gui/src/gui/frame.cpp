@@ -1,6 +1,6 @@
 #include "frame.h"
 
-wxTestFrame::wxTestFrame(const wxString& title)
+FrameTask::FrameTask(const wxString& title)
 	: wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(400, 750))
 {
 	Centre();
@@ -172,9 +172,9 @@ wxTestFrame::wxTestFrame(const wxString& title)
 
 	btnSubmit = new wxButton(panelMain, wxID_EXIT, wxT("Submit"), wxPoint(20, 400), wxDefaultSize);
 	btnSubmit->SetFocus();
-	Connect(wxID_EXIT, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(wxTestFrame::OnButtonExit));
+	Connect(wxID_EXIT, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(FrameTask::OnButtonExit));
 	btnExit = new wxButton(panelMain, wxID_EXIT, wxT("Exit"), wxPoint(20, 400), wxDefaultSize);
-	Connect(wxID_EXIT, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(wxTestFrame::OnButtonExit));
+	Connect(wxID_EXIT, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(FrameTask::OnButtonExit));
 	
 	hboxBottom->Add(btnSubmit, 0, wxLEFT, 10);
 	hboxBottom->Add(btnExit, 0, wxLEFT, 10);
@@ -202,15 +202,13 @@ wxTestFrame::wxTestFrame(const wxString& title)
 	menuHelp->Append(wxID_ABOUT, wxT("&About"));
 	menubarMain->Append(menuHelp, wxT("&Help"));
 	SetMenuBar(menubarMain);
-	
-	//textctrlTest = new wxTextCtrl(this, -1, wxT(""), wxPoint(-1, -1), wxSize(800, 380));
 }
 
-void wxTestFrame::OnButtonExit(wxCommandEvent & WXUNUSED(event))
+void FrameTask::OnButtonExit(wxCommandEvent & WXUNUSED(event))
 {
 	Close(true);
 }
 
-wxTestFrame::~wxTestFrame(void)
+FrameTask::~FrameTask(void)
 {
 }

@@ -3,10 +3,10 @@
 
 #include <wx/app.h>
 
-class MyApp : public wxApp
+class DawgGUI : public wxApp
 {
 public:
 	virtual bool OnInit();
 };
 
-#endif // WXTEST_1_H
+#endif // APP_H

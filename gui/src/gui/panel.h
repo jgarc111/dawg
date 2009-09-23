@@ -3,15 +3,15 @@
 
 #include "gui.h"
 
-class wxTest_1Panel : public MainPanel
+class Panel : public MainPanel
 {
 public:
-	wxTest_1Panel( wxWindow* parent );
-	~wxTest_1Panel();
+	Panel( wxWindow* parent );
+	~Panel();
 
 private:
 	void OnOK( wxCommandEvent& event );
 	DECLARE_EVENT_TABLE();
 };
 
-#endif //WXTEST_1PANEL_H
+#endif //PANEL_H

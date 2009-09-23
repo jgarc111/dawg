@@ -1,11 +1,11 @@
 #pragma once
 #include <wx/wx.h>
 
-class wxTestFrame :
+class FrameTask :
 	public wxFrame
 {
 public:
-	wxTestFrame(const wxString& title);
+	FrameTask(const wxString& title);
 	void OnButtonExit(wxCommandEvent& eventQuit);
 	wxPanel *panelMain;
 	wxBoxSizer *vboxMain, *hboxSubParams, *hboxSubACGT, *hboxIndParams, *hboxBottom;
@@ -25,6 +25,5 @@ public:
 	wxButton *btnSubmit, *btnExit;
 	wxMenuBar *menubarMain;
 	wxMenu *menuFile, *menuEdit, *menuHelp;
-	~wxTestFrame(void);
+	~FrameTask(void);
 };
-
