@@ -19,3 +19,4 @@ wxTest_1About::wxTest_1About( wxWindow* parent )
 	// Resize to fit the contents.
 	this->GetSizer()->SetSizeHints( this );
 }
+
