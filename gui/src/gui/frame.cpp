@@ -16,10 +16,10 @@ FrameTask::FrameTask(const wxString& title)
 	pnlInd  = new wxPanel(nbMain, wxID_ANY);
 	pnlMisc = new wxPanel(nbMain, wxID_ANY);
 
-	nbMain->AddPage(pnlSeq, wxT("Sequence"),       true,  0);
-	nbMain->AddPage(pnlSub, wxT("Substitution"),   false, 1);
-	nbMain->AddPage(pnlInd, wxT("Indels"),         false, 2);
-	nbMain->AddPage(pnlMisc, wxT("Miscellaneous"), false, 3);
+	nbMain->AddPage(pnlSeq, wxT("Sequence"),       true);
+	nbMain->AddPage(pnlSub, wxT("Substitution"),   false);
+	nbMain->AddPage(pnlInd, wxT("Indels"),         false);
+	nbMain->AddPage(pnlMisc, wxT("Miscellaneous"), false);
 
 	// Sequence Panel
 
