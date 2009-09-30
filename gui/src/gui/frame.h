@@ -1,5 +1,6 @@
 #pragma once
 #include <wx/wx.h>
+#include <wx/notebook.h>
 
 class FrameTask :
 	public wxFrame
@@ -7,8 +8,10 @@ class FrameTask :
 public:
 	FrameTask(const wxString& title);
 	void OnButtonExit(wxCommandEvent& eventQuit);
-	wxPanel *panelMain;
-	wxBoxSizer *vboxMain, *hboxSubParams, *hboxSubACGT, *hboxIndParams, *hboxBottom;
+	wxNotebook *nbMain;
+	wxPanel *pnlFrm, *pnlSeq, *pnlSub, *pnlInd, *pnlMisc;
+	wxBoxSizer *vbsFrm, *vbsMain, *vbsNb, *vbsSeq, *vbsSub, *vbsInd, *vbsMisc,
+		*hboxSubParams, *hboxSubACGT, *hboxIndParams, *hbsBottom;
 	wxFlexGridSizer *fgsSeq, *fgsSub, *fgsInd, *fgsMisc;
 	wxStaticBoxSizer *sbsSeq, *sbsSub, *sbsInd, *sbsMisc;
 	wxStaticText *stSeqTree, *stSeqLen,
