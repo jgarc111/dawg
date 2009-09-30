@@ -1,25 +1,25 @@
 #include "frame.h"
 
 FrameTask::FrameTask(const wxString& title)
-	: wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(400, 360))
+	: wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(300, 280))
 {
 	Centre();
-	pnlFrm  = new wxPanel(this, wxID_ANY);
+	pnlFrm  = new wxPanel(this);
 	vbsFrm  = new wxBoxSizer(wxVERTICAL);
 	pnlFrm->SetSizer(vbsFrm);
 
 	nbMain  = new wxNotebook(pnlFrm, wxID_ANY);
 	vbsFrm->Add(nbMain, 1, wxEXPAND | wxALL, 8);
 
-	pnlSeq  = new wxPanel(nbMain, wxID_ANY);
-	pnlSub  = new wxPanel(nbMain, wxID_ANY);
-	pnlInd  = new wxPanel(nbMain, wxID_ANY);
-	pnlMisc = new wxPanel(nbMain, wxID_ANY);
+	pnlSeq  = new wxPanel(nbMain);
+	pnlSub  = new wxPanel(nbMain);
+	pnlInd  = new wxPanel(nbMain);
+	pnlMisc = new wxPanel(nbMain);
 
-	nbMain->AddPage(pnlSeq, wxT("Sequence"),       true);
-	nbMain->AddPage(pnlSub, wxT("Substitution"),   false);
-	nbMain->AddPage(pnlInd, wxT("Indels"),         false);
-	nbMain->AddPage(pnlMisc, wxT("Miscellaneous"), false);
+	nbMain->AddPage(pnlSeq, wxT("Sequence"), true);
+	nbMain->AddPage(pnlSub, wxT("Substitution"));
+	nbMain->AddPage(pnlInd, wxT("Indels"));
+	nbMain->AddPage(pnlMisc, wxT("Miscellaneous"));
 
 	// Sequence Panel
 
@@ -30,7 +30,8 @@ FrameTask::FrameTask(const wxString& title)
 
 	stSeqTree = new wxStaticText(pnlSeq, wxID_ANY, wxT("Tree:"));
 	stSeqLen  = new wxStaticText(pnlSeq, wxID_ANY, wxT("Length:"));
-	tcSeqTree = new wxTextCtrl(pnlSeq, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(-1, 60), wxTE_MULTILINE);
+	tcSeqTree = new wxTextCtrl(pnlSeq, wxID_ANY, wxEmptyString,
+		wxDefaultPosition, wxSize(-1, 60), wxTE_MULTILINE);
 	tcSeqLen  = new wxTextCtrl(pnlSeq, wxID_ANY, wxT("100"), wxDefaultPosition, wxSize(80, 18));
 	fgsSeq->Add(stSeqTree);
 	fgsSeq->Add(tcSeqTree, 1, wxEXPAND);
@@ -52,44 +53,45 @@ FrameTask::FrameTask(const wxString& title)
 	stSubGamma  = new wxStaticText(pnlSub, wxID_ANY, wxT("Gamma:"));
 	stSubIota   = new wxStaticText(pnlSub, wxID_ANY, wxT("Iota:"));
 
-	wxString asSubModels[] = {wxT("Felsenstein 1981"), wxT("Felsenstein 1984"), wxT("General Time Reversible"), wxT("Hasegawa, Kishino, and Yano"),
-		wxT("Jukes and Cantor"), wxT("Kimura Two Parameter"), wxT("Kimura Three Parameter"), wxT("Tamura and Nei")};
-	chSubModel = new wxChoice(pnlSub, wxID_ANY, wxDefaultPosition, wxSize(200, -1), 8, asSubModels);
+	wxString asSubModels[] = {wxT("Felsenstein 1981"), wxT("Felsenstein 1984"),
+		wxT("General Time Reversible"), wxT("Hasegawa, Kishino, and Yano"), wxT("Jukes and Cantor"),
+		wxT("Kimura Two Parameter"), wxT("Kimura Three Parameter"), wxT("Tamura and Nei")};
+	chSubModel = new wxChoice(pnlSub, wxID_ANY, wxDefaultPosition, wxDefaultSize, 8, asSubModels);
 	chSubModel->SetSelection(4);	// Jukes and Cantor
 
-	tcSubParam1 = new wxTextCtrl(pnlSub, wxID_ANY, wxT("1.0"), wxDefaultPosition, wxSize(36, 18));
-	tcSubParam2 = new wxTextCtrl(pnlSub, wxID_ANY, wxT("1.0"), wxDefaultPosition, wxSize(36, 18));
-	tcSubParam3 = new wxTextCtrl(pnlSub, wxID_ANY, wxT("1.0"), wxDefaultPosition, wxSize(36, 18));
-	tcSubParam4 = new wxTextCtrl(pnlSub, wxID_ANY, wxT("1.0"), wxDefaultPosition, wxSize(36, 18));
-	tcSubParam5 = new wxTextCtrl(pnlSub, wxID_ANY, wxT("1.0"), wxDefaultPosition, wxSize(36, 18));
-	tcSubParam6 = new wxTextCtrl(pnlSub, wxID_ANY, wxT("1.0"), wxDefaultPosition, wxSize(36, 18));
-	hboxSubParams = new wxBoxSizer(wxHORIZONTAL);
-	hboxSubParams->Add(tcSubParam1);
-	hboxSubParams->Add(tcSubParam2);
-	hboxSubParams->Add(tcSubParam3);
-	hboxSubParams->Add(tcSubParam4);
-	hboxSubParams->Add(tcSubParam5);
-	hboxSubParams->Add(tcSubParam6);
+	tcSubParam1 = new wxTextCtrl(pnlSub, wxID_ANY, wxT("1.0"), wxDefaultPosition, wxSize(32, 18));
+	tcSubParam2 = new wxTextCtrl(pnlSub, wxID_ANY, wxT("1.0"), wxDefaultPosition, wxSize(32, 18));
+	tcSubParam3 = new wxTextCtrl(pnlSub, wxID_ANY, wxT("1.0"), wxDefaultPosition, wxSize(32, 18));
+	tcSubParam4 = new wxTextCtrl(pnlSub, wxID_ANY, wxT("1.0"), wxDefaultPosition, wxSize(32, 18));
+	tcSubParam5 = new wxTextCtrl(pnlSub, wxID_ANY, wxT("1.0"), wxDefaultPosition, wxSize(32, 18));
+	tcSubParam6 = new wxTextCtrl(pnlSub, wxID_ANY, wxT("1.0"), wxDefaultPosition, wxSize(32, 18));
+	hbsSubParams = new wxBoxSizer(wxHORIZONTAL);
+	hbsSubParams->Add(tcSubParam1);
+	hbsSubParams->Add(tcSubParam2);
+	hbsSubParams->Add(tcSubParam3);
+	hbsSubParams->Add(tcSubParam4);
+	hbsSubParams->Add(tcSubParam5);
+	hbsSubParams->Add(tcSubParam6);
 
-	tcSubACGT1 = new wxTextCtrl(pnlSub, wxID_ANY, wxT("0.25"), wxDefaultPosition, wxSize(36, 18));
-	tcSubACGT2 = new wxTextCtrl(pnlSub, wxID_ANY, wxT("0.25"), wxDefaultPosition, wxSize(36, 18));
-	tcSubACGT3 = new wxTextCtrl(pnlSub, wxID_ANY, wxT("0.25"), wxDefaultPosition, wxSize(36, 18));
-	tcSubACGT4 = new wxTextCtrl(pnlSub, wxID_ANY, wxT("0.25"), wxDefaultPosition, wxSize(36, 18));
-	hboxSubACGT = new wxBoxSizer(wxHORIZONTAL);
-	hboxSubACGT->Add(tcSubACGT1);
-	hboxSubACGT->Add(tcSubACGT2);
-	hboxSubACGT->Add(tcSubACGT3);
-	hboxSubACGT->Add(tcSubACGT4);
+	tcSubACGT1 = new wxTextCtrl(pnlSub, wxID_ANY, wxT("0.25"), wxDefaultPosition, wxSize(32, 18));
+	tcSubACGT2 = new wxTextCtrl(pnlSub, wxID_ANY, wxT("0.25"), wxDefaultPosition, wxSize(32, 18));
+	tcSubACGT3 = new wxTextCtrl(pnlSub, wxID_ANY, wxT("0.25"), wxDefaultPosition, wxSize(32, 18));
+	tcSubACGT4 = new wxTextCtrl(pnlSub, wxID_ANY, wxT("0.25"), wxDefaultPosition, wxSize(32, 18));
+	hbsSubACGT = new wxBoxSizer(wxHORIZONTAL);
+	hbsSubACGT->Add(tcSubACGT1);
+	hbsSubACGT->Add(tcSubACGT2);
+	hbsSubACGT->Add(tcSubACGT3);
+	hbsSubACGT->Add(tcSubACGT4);
 
-	tcSubGamma = new wxTextCtrl(pnlSub, wxID_ANY, wxT("0.0"), wxDefaultPosition, wxSize(72, 18));
-	tcSubIota  = new wxTextCtrl(pnlSub, wxID_ANY, wxT("0.0"), wxDefaultPosition, wxSize(72, 18));
+	tcSubGamma = new wxTextCtrl(pnlSub, wxID_ANY, wxT("0.0"), wxDefaultPosition, wxSize(64, 18));
+	tcSubIota  = new wxTextCtrl(pnlSub, wxID_ANY, wxT("0.0"), wxDefaultPosition, wxSize(64, 18));
 
 	fgsSub->Add(stSubModel);
 	fgsSub->Add(chSubModel);
 	fgsSub->Add(stSubParams);
-	fgsSub->Add(hboxSubParams);
+	fgsSub->Add(hbsSubParams);
 	fgsSub->Add(stSubACGT);
-	fgsSub->Add(hboxSubACGT);
+	fgsSub->Add(hbsSubACGT);
 	fgsSub->Add(stSubGamma);
 	fgsSub->Add(tcSubGamma);
 	fgsSub->Add(stSubIota);
@@ -99,62 +101,66 @@ FrameTask::FrameTask(const wxString& title)
 	// Indels Panel
 
 	vbsInd       = new wxBoxSizer(wxVERTICAL);
-	fgsInd       = new wxFlexGridSizer(5, 2, 8, 8);
-	vbsInd->Add(fgsInd, 1, wxEXPAND | wxALL, 10);
 	pnlInd->SetSizer(vbsInd);
+
+	fgsInd       = new wxFlexGridSizer(3, 2, 8, 8);
+	vbsInd->Add(fgsInd, 0, wxEXPAND | wxALL, 10);
 
 	stIndLambda  = new wxStaticText(pnlInd, wxID_ANY, wxT("Lambda:"));
 	stIndModel   = new wxStaticText(pnlInd, wxID_ANY, wxT("Model:"));
 	stIndParams  = new wxStaticText(pnlInd, wxID_ANY, wxT("Params:"));
-	stIndVerbose = new wxStaticText(pnlInd, wxID_ANY, wxT("Verbose:"));
-	stIndHideLen = new wxStaticText(pnlInd, wxID_ANY, wxT("Hide Length:"));
 
 	wxString asIndModels[] = {wxT("Negative Binomial"), wxT("Power Law")};
-	chIndModel   = new wxChoice(pnlInd, wxID_ANY, wxDefaultPosition, wxSize(200, -1), 2, asIndModels);
+	chIndModel   = new wxChoice(pnlInd, wxID_ANY, wxDefaultPosition, wxDefaultSize, 2, asIndModels);
 	chIndModel->SetSelection(1);	// Power Law
 
-	tcIndLambda   = new wxTextCtrl(pnlInd, wxID_ANY, wxT("0.0"), wxDefaultPosition, wxSize(72, 18));
-	tcIndParam1   = new wxTextCtrl(pnlInd, wxID_ANY, wxT("1.5"), wxDefaultPosition, wxSize(36, 18));
-	tcIndParam2   = new wxTextCtrl(pnlInd, wxID_ANY, wxT("100"), wxDefaultPosition, wxSize(36, 18));
-	hboxIndParams = new wxBoxSizer(wxHORIZONTAL);
-	hboxIndParams->Add(tcIndParam1);
-	hboxIndParams->Add(tcIndParam2);
+	tcIndLambda  = new wxTextCtrl(pnlInd, wxID_ANY, wxT("0.0"), wxDefaultPosition, wxSize(72, 18));
+	tcIndParam1  = new wxTextCtrl(pnlInd, wxID_ANY, wxT("1.5"), wxDefaultPosition, wxSize(36, 18));
+	tcIndParam2  = new wxTextCtrl(pnlInd, wxID_ANY, wxT("100"), wxDefaultPosition, wxSize(36, 18));
+	hbsIndParams = new wxBoxSizer(wxHORIZONTAL);
+	hbsIndParams->Add(tcIndParam1);
+	hbsIndParams->Add(tcIndParam2);
 
-	cbIndVerbose = new wxCheckBox(pnlInd, wxID_ANY, wxT(""));
-	cbIndHideLen = new wxCheckBox(pnlInd, wxID_ANY, wxT(""));
+	cbIndVerbose = new wxCheckBox(pnlInd, wxID_ANY, wxT(" Verbose"));
+	cbIndHideLen = new wxCheckBox(pnlInd, wxID_ANY, wxT(" Hide Length"));
+	hbsIndCb     = new wxBoxSizer(wxHORIZONTAL);
+	vbsInd->Add(hbsIndCb, 0, wxLEFT | wxRIGHT | wxBOTTOM, 10);
+	hbsIndCb->Add(cbIndVerbose, 0, wxRIGHT, 16);
+	hbsIndCb->Add(cbIndHideLen, 1);
 
 	fgsInd->Add(stIndLambda);
 	fgsInd->Add(tcIndLambda);
 	fgsInd->Add(stIndModel);
 	fgsInd->Add(chIndModel);
 	fgsInd->Add(stIndParams);
-	fgsInd->Add(hboxIndParams);
-	fgsInd->Add(stIndVerbose);
-	fgsInd->Add(cbIndVerbose);
-	fgsInd->Add(stIndHideLen);
-	fgsInd->Add(cbIndHideLen);
+	fgsInd->Add(hbsIndParams);
 	fgsInd->AddGrowableCol(1, 1);
 
 	// Miscellaneous Panel
 
 	vbsMisc      = new wxBoxSizer(wxVERTICAL);
-	fgsMisc      = new wxFlexGridSizer(5, 2, 8, 8);
+	pnlMisc->SetSizer(vbsMisc);
+
+	fgsMisc      = new wxFlexGridSizer(3, 2, 8, 8);
+	vbsMisc->Add(fgsMisc, 0, wxEXPAND | wxALL, 10);
 
 	stMiscReps   = new wxStaticText(pnlMisc, wxID_ANY, wxT("Reps:"));
 	stMiscSeed   = new wxStaticText(pnlMisc, wxID_ANY, wxT("Seed:"));
 	stMiscFormat = new wxStaticText(pnlMisc, wxID_ANY, wxT("Format:"));
-	stMiscInFile = new wxStaticText(pnlMisc, wxID_ANY, wxT("Input File:"));
-	stMiscSvFile = new wxStaticText(pnlMisc, wxID_ANY, wxT("Save to File:"));
 
 	tcMiscReps   = new wxTextCtrl(pnlMisc, wxID_ANY, wxT("1"), wxDefaultPosition, wxSize(72, 18));
 	tcMiscSeed   = new wxTextCtrl(pnlMisc, wxID_ANY, wxT("21569"), wxDefaultPosition, wxSize(72, 18));
 
 	wxString asMiscFormats[] = {wxT("Clustal"), wxT("Fasta"), wxT("Nexus"), wxT("Phylip")};
-	chMiscFormat = new wxChoice(pnlMisc, wxID_ANY, wxDefaultPosition, wxSize(200, -1), 2, asMiscFormats);
+	chMiscFormat = new wxChoice(pnlMisc, wxID_ANY, wxDefaultPosition, wxDefaultSize, 2, asMiscFormats);
 	chMiscFormat->SetSelection(0);	// Clustal
 
-	cbMiscInFile = new wxCheckBox(pnlMisc, wxID_ANY, wxT(""));
-	cbMiscSvFile = new wxCheckBox(pnlMisc, wxID_ANY, wxT(""));
+	cbMiscInFile = new wxCheckBox(pnlMisc, wxID_ANY, wxT(" Input File"));
+	cbMiscSvFile = new wxCheckBox(pnlMisc, wxID_ANY, wxT(" Save to File"));
+	hbsMiscCb    = new wxBoxSizer(wxHORIZONTAL);
+	vbsMisc->Add(hbsMiscCb, 0, wxLEFT | wxRIGHT | wxBOTTOM, 10);
+	hbsMiscCb->Add(cbMiscInFile, 0, wxRIGHT, 16);
+	hbsMiscCb->Add(cbMiscSvFile, 1);
 
 	fgsMisc->Add(stMiscReps);
 	fgsMisc->Add(tcMiscReps);
@@ -162,15 +168,8 @@ FrameTask::FrameTask(const wxString& title)
 	fgsMisc->Add(tcMiscSeed);
 	fgsMisc->Add(stMiscFormat);
 	fgsMisc->Add(chMiscFormat);
-	fgsMisc->Add(stMiscInFile);
-	fgsMisc->Add(cbMiscInFile);
-	fgsMisc->Add(stMiscSvFile);
-	fgsMisc->Add(cbMiscSvFile);
-	fgsMisc->SetItemMinSize((size_t)0, 64, -1);
 	fgsMisc->AddGrowableCol(1, 1);
 
-	vbsMisc->Add(fgsMisc, 1, wxEXPAND | wxALL, 10);
-	pnlMisc->SetSizer(vbsMisc);
 
 	// Bottom: Buttons
 
