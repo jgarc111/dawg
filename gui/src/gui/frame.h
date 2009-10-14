@@ -1,17 +1,18 @@
 #pragma once
 #include <wx/wx.h>
 #include <wx/notebook.h>
+#include <wx/spinctrl.h>
 
-class FrameTask :
+class dawgFrame :
 	public wxFrame
 {
-public:
-	FrameTask(const wxString& title);
+private:
 	void OnButtonExit(wxCommandEvent& eventQuit);
 	wxNotebook *nbMain;
 	wxPanel *pnlFrm, *pnlSeq, *pnlSub, *pnlInd, *pnlMisc;
 	wxBoxSizer *vbsFrm, *vbsNb, *vbsSeq, *vbsSub, *vbsInd, *vbsMisc,
-		*hbsSubParams, *hbsSubACGT, *hbsIndParams, *hbsIndCb, *hbsMiscCb, *hbsBottom;
+		*hbsSubParams, *hbsSubACGT, *hbsIndParams, *hbsIndCb,
+		*hbsMiscCb, *hbsMiscSeed, *hbsBottom;
 	wxFlexGridSizer *fgsSeq, *fgsSub, *fgsInd, *fgsMisc;
 	wxStaticBoxSizer *sbsSeq, *sbsSub, *sbsInd, *sbsMisc;
 	wxStaticText *stSeqTree, *stSeqLen,
@@ -26,9 +27,15 @@ public:
 		*tcSubGamma, *tcSubIota,
 		*tcIndLambda, *tcIndParam1, *tcIndParam2,
 		*tcMiscReps, *tcMiscSeed;
+	wxSpinCtrl *scMiscReps;
 	wxCheckBox *cbIndVerbose, *cbIndHideLen, *cbMiscInFile, *cbMiscSvFile;
-	wxButton *btnSubmit, *btnExit;
+	wxButton *btnSubmit, *btnExit, *btnMiscSeed;
 	wxMenuBar *menubarMain;
 	wxMenu *menuFile, *menuEdit, *menuHelp;
-	~FrameTask(void);
+
+public:
+	dawgFrame(const wxString& title);
+	~dawgFrame(void);
+
+	wxNotebook* GetNotebook() { return nbMain; }
 };

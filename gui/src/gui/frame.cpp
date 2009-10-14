@@ -1,8 +1,9 @@
 #include "frame.h"
 
-FrameTask::FrameTask(const wxString& title)
-	: wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(300, 280))
+dawgFrame::dawgFrame(const wxString& title)
+	: wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(360, 280))
 {
+	srand(GetTickCount());
 	Centre();
 	pnlFrm  = new wxPanel(this);
 	vbsFrm  = new wxBoxSizer(wxVERTICAL);
@@ -142,15 +143,18 @@ FrameTask::FrameTask(const wxString& title)
 	pnlMisc->SetSizer(vbsMisc);
 
 	fgsMisc      = new wxFlexGridSizer(3, 2, 8, 8);
-	vbsMisc->Add(fgsMisc, 0, wxEXPAND | wxALL, 10);
 
 	stMiscReps   = new wxStaticText(pnlMisc, wxID_ANY, wxT("Reps:"));
+	scMiscReps   = new wxSpinCtrl(pnlMisc, wxID_ANY, wxT("1"), wxDefaultPosition, wxSize(72, 18), wxSP_ARROW_KEYS, 1, 1000000);
+
 	stMiscSeed   = new wxStaticText(pnlMisc, wxID_ANY, wxT("Seed:"));
+	hbsMiscSeed  = new wxBoxSizer(wxHORIZONTAL);
+	tcMiscSeed   = new wxTextCtrl(pnlMisc, wxID_ANY, wxString::Format(wxT("%ld"), rand()), wxDefaultPosition, wxSize(72, 18));
+	btnMiscSeed  = new wxButton(pnlMisc, wxID_ANY, wxT("Random"));
+	hbsMiscSeed->Add(tcMiscSeed, 0, wxRIGHT, 10);
+	hbsMiscSeed->Add(btnMiscSeed);
+
 	stMiscFormat = new wxStaticText(pnlMisc, wxID_ANY, wxT("Format:"));
-
-	tcMiscReps   = new wxTextCtrl(pnlMisc, wxID_ANY, wxT("1"), wxDefaultPosition, wxSize(72, 18));
-	tcMiscSeed   = new wxTextCtrl(pnlMisc, wxID_ANY, wxT("21569"), wxDefaultPosition, wxSize(72, 18));
-
 	wxString asMiscFormats[] = {wxT("Clustal"), wxT("Fasta"), wxT("Nexus"), wxT("Phylip")};
 	chMiscFormat = new wxChoice(pnlMisc, wxID_ANY, wxDefaultPosition, wxDefaultSize, 2, asMiscFormats);
 	chMiscFormat->SetSelection(0);	// Clustal
@@ -158,18 +162,18 @@ FrameTask::FrameTask(const wxString& title)
 	cbMiscInFile = new wxCheckBox(pnlMisc, wxID_ANY, wxT(" Input File"));
 	cbMiscSvFile = new wxCheckBox(pnlMisc, wxID_ANY, wxT(" Save to File"));
 	hbsMiscCb    = new wxBoxSizer(wxHORIZONTAL);
-	vbsMisc->Add(hbsMiscCb, 0, wxLEFT | wxRIGHT | wxBOTTOM, 10);
 	hbsMiscCb->Add(cbMiscInFile, 0, wxRIGHT, 16);
 	hbsMiscCb->Add(cbMiscSvFile, 1);
 
 	fgsMisc->Add(stMiscReps);
-	fgsMisc->Add(tcMiscReps);
+	fgsMisc->Add(scMiscReps);
 	fgsMisc->Add(stMiscSeed);
-	fgsMisc->Add(tcMiscSeed);
+	fgsMisc->Add(hbsMiscSeed);
 	fgsMisc->Add(stMiscFormat);
 	fgsMisc->Add(chMiscFormat);
 	fgsMisc->AddGrowableCol(1, 1);
-
+	vbsMisc->Add(fgsMisc, 0, wxEXPAND | wxALL, 10);
+	vbsMisc->Add(hbsMiscCb, 0, wxLEFT | wxRIGHT | wxBOTTOM, 10);
 
 	// Bottom: Buttons
 
@@ -177,9 +181,8 @@ FrameTask::FrameTask(const wxString& title)
 
 	btnSubmit = new wxButton(pnlFrm, wxID_EXIT, wxT("Submit"), wxPoint(20, 400), wxDefaultSize);
 	btnSubmit->SetFocus();
-	Connect(wxID_EXIT, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(FrameTask::OnButtonExit));
 	btnExit = new wxButton(pnlFrm, wxID_EXIT, wxT("Exit"), wxPoint(20, 400), wxDefaultSize);
-	Connect(wxID_EXIT, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(FrameTask::OnButtonExit));
+	Connect(wxID_EXIT, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(dawgFrame::OnButtonExit));
 	
 	hbsBottom->Add(btnSubmit, 0, wxLEFT, 10);
 	hbsBottom->Add(btnExit, 0, wxLEFT, 10);
@@ -211,11 +214,11 @@ FrameTask::FrameTask(const wxString& title)
 	SetMenuBar(menubarMain);
 }
 
-void FrameTask::OnButtonExit(wxCommandEvent & WXUNUSED(event))
+void dawgFrame::OnButtonExit(wxCommandEvent & WXUNUSED(event))
 {
 	Close(true);
 }
 
-FrameTask::~FrameTask(void)
+dawgFrame::~dawgFrame(void)
 {
 }
