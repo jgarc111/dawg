@@ -6,9 +6,13 @@
 class dawgFrame :
 	public wxFrame
 {
+public:
+	dawgFrame(const wxString& title);
+	~dawgFrame(void);
+	wxNotebook *nbMain;
+
 private:
 	void OnButtonExit(wxCommandEvent& eventQuit);
-	wxNotebook *nbMain;
 	wxPanel *pnlFrm, *pnlSeq, *pnlSub, *pnlInd, *pnlMisc;
 	wxBoxSizer *vbsFrm, *vbsNb, *vbsSeq, *vbsSub, *vbsInd, *vbsMisc,
 		*hbsSubParams, *hbsSubACGT, *hbsIndParams, *hbsIndCb,
@@ -32,10 +36,4 @@ private:
 	wxButton *btnSubmit, *btnExit, *btnMiscSeed;
 	wxMenuBar *menubarMain;
 	wxMenu *menuFile, *menuEdit, *menuHelp;
-
-public:
-	dawgFrame(const wxString& title);
-	~dawgFrame(void);
-
-	wxNotebook* GetNotebook() { return nbMain; }
 };
