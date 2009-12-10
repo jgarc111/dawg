@@ -3,7 +3,7 @@
 dawgFrame::dawgFrame(const wxString& title)
 	: wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(360, 280))
 {
-	srand(GetTickCount());
+	srand(123);//GetTickCount());
 	Centre();
 	pnlFrm  = new wxPanel(this);
 	vbsFrm  = new wxBoxSizer(wxVERTICAL);

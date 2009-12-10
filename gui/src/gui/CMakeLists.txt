@@ -4,7 +4,8 @@ IF(wxWidgets_FOUND)
   INCLUDE(${wxWidgets_USE_FILE})
 
   ADD_EXECUTABLE(dawg-gui WIN32 ${PROJ_MACOSX_BUNDLE}
-  	app.cpp frame.cpp
+  	app.cpp frame.cpp text.cpp page.cpp
+  	app.h frame.h page.h text.h 
     "${CMAKE_CURRENT_BINARY_DIR}/../config.h"
     )
   TARGET_LINK_LIBRARIES(dawg-gui ${CMAKE_REQUIRED_LIBRARIES} ${wxWidgets_LIBRARIES})
