@@ -5,6 +5,8 @@
 #include "frame.h"
 #include "page.h"
 #include "text.h"
+#include "double.h"
+#include "bool.h"
 
 class DawgGUI : public wxApp
 {

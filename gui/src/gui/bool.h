@@ -4,16 +4,15 @@
 #include "frame.h"
 #include "page.h"
 
-class dawgText
+class dawgBool
 {
 public:
-	dawgText(dawgPage* page,
+	dawgBool(dawgPage* page,
 		const wxString& key,
-		const wxString& value = wxEmptyString);
-	~dawgText(void);
+		const bool value = false);
+	~dawgBool(void);
 
 private:
 	wxBoxSizer   *hbox;
-	wxStaticText *statictext;
-	wxTextCtrl   *textctrl;
+	wxCheckBox   *checkbox;
 };

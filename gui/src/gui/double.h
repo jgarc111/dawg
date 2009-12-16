@@ -4,13 +4,13 @@
 #include "frame.h"
 #include "page.h"
 
-class dawgText
+class dawgDouble
 {
 public:
-	dawgText(dawgPage* page,
+	dawgDouble(dawgPage* page,
 		const wxString& key,
 		const wxString& value = wxEmptyString);
-	~dawgText(void);
+	~dawgDouble(void);
 
 private:
 	wxBoxSizer   *hbox;
