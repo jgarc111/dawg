@@ -1,4 +1,3 @@
-<<<<<<< .mine
 /****************************************************************************
  *  Copyright (C) 2009 Reed A. Cartwright, PhD <reed@scit.us>               *
  ****************************************************************************/
@@ -60,66 +59,3 @@ XM((sim)(seed), unsigned int, 0)*/
 #include "xm.h"
 
 
-=======
-/****************************************************************************
- *  Copyright (C) 2009 Reed A. Cartwright, PhD <reed@scit.us>               *
- ****************************************************************************/
-
-#include "xm.h"
-
-/***************************************************************************
- *    X-Macro List                                                         *
- *    Defines the core model for Dawg, simulate sequences down a tree      *
- *    using substitution and indel models                                  *
- *                                                                         *
- *    XM(name, type, def)                                                  *
- ***************************************************************************/
-
-XM((subst)(model),        std::string, "jc")
-XM((subst)(freqs),        std::vector<double>, )
-XM((subst)(params),       std::vector<double>, )
-XM((subst)(rate)(model),  std::string, "const")
-XM((subst)(rate)(params), std::vector<double>, )
-
-XM((indel)(model)(ins),  std::vector<std::string>, )
-XM((indel)(rate)(ins),   std::vector<double>,  )
-XM((indel)(params)(ins), std::vector<double>, )
-XM((indel)(model)(del),  std::vector<std::string>, )
-XM((indel)(rate)(del),   std::vector<double>, )
-XM((indel)(params)(del), std::vector<double>, )
-
-XM((tree)(model),  std::string, "user")
-XM((tree)(params), std::vector<double>, )
-XM((tree)(tree),   std::string, )
-XM((tree)(scale),  double, 1.0)
-
-XM((root)(length),  unsigned int, 0)
-XM((root)(seq),     std::string, )
-XM((root)(rates),   std::vector<double> >, )
-XM((root)(type),    std::string, "dna")
-XM((root)(segment), unsigned int, 0)
-XM((root)(overlap), bool, false)
-
-XM((output)(block)(head),    std::string, )
-XM((output)(block)(tail),    std::string, )
-XM((output)(block)(before),  std::string, )
-XM((output)(block)(after),   std::string, )
-XM((output)(block)(between), std::string, )
-XM((output)(vars),           bool, false  )
-XM((output)(file),           std::string, )
-XM((output)(split),          bool, false  )
-XM((output)(gapplus),        bool, false  )
-XM((output)(gapsinglechar),  bool, false  )
-XM((output)(lowercase),      bool, false  )
-XM((output)(translate),      bool, false  )
-
-XM((sim)(reps), unsigned int, 1)
-XM((sim)(seed), unsigned int, 0)
-
-/***************************************************************************
- *    cleanup                                                              *
- ***************************************************************************/
-#include "xm.h"
-
-
->>>>>>> .r473
