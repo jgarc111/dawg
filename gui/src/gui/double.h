@@ -9,7 +9,7 @@ class dawgDouble
 public:
 	dawgDouble(dawgPage* page,
 		const wxString& key,
-		const wxString& value = wxEmptyString);
+		double d);
 	~dawgDouble(void);
 
 private:

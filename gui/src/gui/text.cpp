@@ -2,11 +2,12 @@
 
 dawgText::dawgText(dawgPage* page,
 				   const wxString& key,
-				   const wxString& value)
+				   const std::string &value)
 {
 	hbox       = new wxBoxSizer(wxHORIZONTAL);
 	statictext = new wxStaticText(page->panel, wxID_ANY, key);
-	textctrl   = new wxTextCtrl(page->panel, wxID_ANY, value);
+	wxString str(value.c_str(), wxConvUTF8);
+	textctrl   = new wxTextCtrl(page->panel, wxID_ANY, str);
 	hbox->Add(statictext, 0, wxALIGN_LEFT, 0);
 	hbox->Add(textctrl, 1, wxALIGN_LEFT | wxLEFT, 10);
 	page->vbox->Add(hbox, 0, wxALIGN_LEFT | wxLEFT | wxRIGHT | wxTOP, 10);
@@ -18,7 +19,7 @@ dawgText::dawgText(dawgPage* page,
 
 dawgText::~dawgText(void)
 {
-	free(statictext);
-	free(textctrl);
-	free(hbox);
+	delete statictext;
+	delete textctrl;
+	delete hbox;
 }

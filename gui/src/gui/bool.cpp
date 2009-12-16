@@ -12,6 +12,6 @@ dawgBool::dawgBool(dawgPage* page,
 
 dawgBool::~dawgBool(void)
 {
-	free(checkbox);
-	free(hbox);
+	delete checkbox;
+	delete hbox;
 }

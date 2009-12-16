@@ -9,7 +9,7 @@ class dawgText
 public:
 	dawgText(dawgPage* page,
 		const wxString& key,
-		const wxString& value = wxEmptyString);
+		const std::string &value);
 	~dawgText(void);
 
 private:

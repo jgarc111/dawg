@@ -2,10 +2,11 @@
 
 dawgDouble::dawgDouble(dawgPage* page,
 				   const wxString& key,
-				   const wxString& value)
+				   double d)
 {
 	hbox       = new wxBoxSizer(wxHORIZONTAL);
 	statictext = new wxStaticText(page->panel, wxID_ANY, key);
+	wxString value = wxString::Format(wxT("%f"), d);
 	textctrl   = new wxTextCtrl(page->panel, wxID_ANY, value);
 	hbox->Add(statictext, 0, wxLEFT, 10);
 	hbox->Add(textctrl, 0, wxLEFT, 10);
@@ -14,7 +15,7 @@ dawgDouble::dawgDouble(dawgPage* page,
 
 dawgDouble::~dawgDouble(void)
 {
-	free(statictext);
-	free(textctrl);
-	free(hbox);
+	delete statictext;
+	delete textctrl;
+	delete hbox;
 }

@@ -20,7 +20,7 @@
  * DEALINGS IN THE SOFTWARE.                                                  *
  ******************************************************************************/
 
-//#include <boost/preprocessor.hpp>
+#include <boost/preprocessor.hpp>
 
 #ifndef XMACROS_HELPERS
 #define XMACROS_HELPERS

@@ -2,16 +2,33 @@
 
 IMPLEMENT_APP( DawgGUI );
 
+DawgGUI::DawgGUI()
+{
+
+}
+
 bool DawgGUI::OnInit()
 {
-	dawgFrame *frmTest = new dawgFrame(wxT("Dawg Test Frame"));
-	frmTest->Show(true);
-	dawgPage *pgTest  = new dawgPage(frmTest, wxT("Test"));
-	dawgText *txtTest1 = new dawgText(pgTest, wxT("Test Key 1:"), wxT("Test Value 1"));
-	dawgText *txtTest2 = new dawgText(pgTest, wxT("Test Key 2:"), wxT("Test Value 2"));
-	dawgText *txtTest3 = new dawgText(pgTest, wxT("Test Key 3:"), wxT("Test Value 3"));
-	#define XM(name, type, def) new dawgPage(frmTest, wxT("type _V(name)"));
+	frame.reset(new dawgFrame(wxT("Dawg Test Frame")));
+	
+	subst.reset(new dawgPage(frame.get(), wxT("Subst")));	
+	indel.reset(new dawgPage(frame.get(), wxT("Indel")));	
+	root.reset(new dawgPage(frame.get(), wxT("Root")));	
+	output.reset(new dawgPage(frame.get(), wxT("Ouput")));	
+	sim.reset(new dawgPage(frame.get(), wxT("Sim")));	
+	tree.reset(new dawgPage(frame.get(), wxT("Tree")));	
+	
+	#define XM(name, atype, def) _V(name).reset(new dawg_gui_type< atype >::type( \
+		BOOST_PP_SEQ_HEAD(name).get(), wxT(_S(BOOST_PP_SEQ_TAIL(name))), \
+		dawg_gui_type< atype >::default_type(def))) ;
 	#include "dawgma.xmh"
 	#undef XM
+
+	frame->Show(true);
 	return true;
+}
+
+DawgGUI::~DawgGUI()
+{
+
 }
