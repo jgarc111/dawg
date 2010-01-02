@@ -33,6 +33,7 @@ dawgFrame::dawgFrame(const wxString& title)
 	stSeqLen  = new wxStaticText(pnlSeq, wxID_ANY, wxT("Length:"));
 	tcSeqTree = new wxTextCtrl(pnlSeq, wxID_ANY, wxEmptyString,
 		wxDefaultPosition, wxSize(-1, 60), wxTE_MULTILINE);
+	tcSeqTree->SetLabel(wxT("Test"));
 	tcSeqLen  = new wxTextCtrl(pnlSeq, wxID_ANY, wxT("100"), wxDefaultPosition, wxSize(80, 18));
 	fgsSeq->Add(stSeqTree);
 	fgsSeq->Add(tcSeqTree, 1, wxEXPAND);

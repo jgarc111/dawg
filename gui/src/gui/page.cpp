@@ -6,7 +6,7 @@ dawgPage::dawgPage(dawgFrame* frame, const wxString& title)
 	panel = new wxPanel(frame->nbMain);
 	frame->nbMain->AddPage(panel, title);
 	vbox = new wxBoxSizer(wxVERTICAL);
-	panel->SetSizer(vbox);
+	//panel->SetSizer(vbox);
 }
 
 dawgPage::~dawgPage(void)
