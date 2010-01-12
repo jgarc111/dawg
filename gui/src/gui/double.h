@@ -7,13 +7,10 @@
 class dawgDouble
 {
 public:
-	dawgDouble(dawgPage* page,
-		const wxString& key,
-		double d);
+	dawgDouble(dawgPage* page, const wxString& key, double def);
 	~dawgDouble(void);
 
 private:
-	wxBoxSizer   *hbox;
-	wxStaticText *statictext;
+	wxStaticText *label;
 	wxTextCtrl   *textctrl;
 };

@@ -7,12 +7,10 @@
 class dawgBool
 {
 public:
-	dawgBool(dawgPage* page,
-		const wxString& key,
-		const bool value = false);
+	dawgBool(dawgPage* page, const wxString& key, bool def = false);
 	~dawgBool(void);
 
 private:
-	wxBoxSizer   *hbox;
+	wxStaticText *label;
 	wxCheckBox   *checkbox;
 };

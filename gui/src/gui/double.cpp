@@ -1,21 +1,15 @@
 #include "double.h"
 
-dawgDouble::dawgDouble(dawgPage* page,
-				   const wxString& key,
-				   double d)
+dawgDouble::dawgDouble(dawgPage* page, const wxString& key, double def)
 {
-	hbox       = new wxBoxSizer(wxHORIZONTAL);
-	statictext = new wxStaticText(page->panel, wxID_ANY, key);
-	wxString value = wxString::Format(wxT("%f"), d);
-	textctrl   = new wxTextCtrl(page->panel, wxID_ANY, value);
-	hbox->Add(statictext, 0, wxLEFT, 10);
-	hbox->Add(textctrl, 0, wxLEFT, 10);
-	page->vbox->Add(hbox, 1, wxALIGN_LEFT | wxLEFT | wxBOTTOM, 10);
+	label    = new wxStaticText(page->panel, wxID_ANY, key);
+	wxString wxDef = wxString::Format(wxT("%f"), def);
+	textctrl = new wxTextCtrl(page->panel, wxID_ANY, wxDef);
+	page->sizer->Add(label, 0);
+	page->sizer->Add(textctrl, 0);
 }
 
 dawgDouble::~dawgDouble(void)
 {
-	delete statictext;
-	delete textctrl;
-	delete hbox;
+	delete label, textctrl;
 }

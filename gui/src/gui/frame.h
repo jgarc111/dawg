@@ -9,31 +9,16 @@ class dawgFrame :
 public:
 	dawgFrame(const wxString& title);
 	~dawgFrame(void);
-	wxNotebook *nbMain;
+	wxPanel    *panel;
+	wxBoxSizer *vbox;
+	wxNotebook *notebook;
+	wxMenuBar  *menubar;
 
 private:
+	void BuildMenuBar(wxMenuBar* menubar);
+	void BuildBottom(wxBoxSizer* hbsBottom);
 	void OnButtonExit(wxCommandEvent& eventQuit);
-	wxPanel *pnlFrm, *pnlSeq, *pnlSub, *pnlInd, *pnlMisc;
-	wxBoxSizer *vbsFrm, *vbsNb, *vbsSeq, *vbsSub, *vbsInd, *vbsMisc,
-		*hbsSubParams, *hbsSubACGT, *hbsIndParams, *hbsIndCb,
-		*hbsMiscCb, *hbsMiscSeed, *hbsBottom;
-	wxFlexGridSizer *fgsSeq, *fgsSub, *fgsInd, *fgsMisc;
-	wxStaticBoxSizer *sbsSeq, *sbsSub, *sbsInd, *sbsMisc;
-	wxStaticText *stSeqTree, *stSeqLen,
-		*stSubModel, *stSubParams, *stSubACGT, *stSubGamma, *stSubIota,
-		*stIndLambda, *stIndModel, *stIndParams,
-		*stMiscReps, *stMiscSeed, *stMiscFormat;
-	wxChoice *chSubModel, *chIndModel, *chMiscFormat;
-	wxTextCtrl *tcSeqTree, *tcSeqLen,
-		*tcSubParam1, *tcSubParam2, *tcSubParam3,
-		*tcSubParam4, *tcSubParam5, *tcSubParam6,
-		*tcSubACGT1, *tcSubACGT2, *tcSubACGT3, *tcSubACGT4,
-		*tcSubGamma, *tcSubIota,
-		*tcIndLambda, *tcIndParam1, *tcIndParam2,
-		*tcMiscReps, *tcMiscSeed;
-	wxSpinCtrl *scMiscReps;
-	wxCheckBox *cbIndVerbose, *cbIndHideLen, *cbMiscInFile, *cbMiscSvFile;
-	wxButton *btnSubmit, *btnExit, *btnMiscSeed;
-	wxMenuBar *menubarMain;
+	wxBoxSizer *hbsBottom;
+	wxButton *btnSubmit, *btnExit;
 	wxMenu *menuFile, *menuEdit, *menuHelp;
 };

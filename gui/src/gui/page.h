@@ -7,8 +7,9 @@ class dawgPage
 public:
 	dawgPage(dawgFrame*, const wxString&);
 	~dawgPage(void);
-	wxPanel    *panel;
-	wxBoxSizer *vbox;
+	wxPanel *panel;
+	wxFlexGridSizer *sizer;
 
 private:
+	wxBoxSizer *hbox;
 };

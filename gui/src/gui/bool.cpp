@@ -1,17 +1,15 @@
 #include "bool.h"
 
-dawgBool::dawgBool(dawgPage* page,
-				   const wxString& key,
-				   const bool value)
+dawgBool::dawgBool(dawgPage* page, const wxString& key, bool def)
 {
-	hbox     = new wxBoxSizer(wxHORIZONTAL);
-	checkbox = new wxCheckBox(page->panel, wxID_ANY, key);
-	hbox->Add(checkbox, 0, wxLEFT, 10);
-	page->vbox->Add(hbox, 1, wxALIGN_LEFT | wxLEFT | wxBOTTOM, 10);
+	label    = new wxStaticText(page->panel, wxID_ANY, key);
+	checkbox = new wxCheckBox(page->panel, wxID_ANY, wxEmptyString);
+	checkbox->SetValue(def);
+	page->sizer->Add(label, 0);
+	page->sizer->Add(checkbox, 0);
 }
 
 dawgBool::~dawgBool(void)
 {
-	delete checkbox;
-	delete hbox;
+	delete label, checkbox;
 }
