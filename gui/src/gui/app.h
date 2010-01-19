@@ -1,9 +1,11 @@
 #pragma once
 #include <string>
+#include <vector>
 #include <wx/app.h>
 #include "frame.h"
 #include "page.h"
 #include "text.h"
+#include "int.h"
 #include "double.h"
 #include "bool.h"
 
@@ -27,8 +29,8 @@ struct dawg_gui_type<double> {
 };
 template<>
 struct dawg_gui_type<unsigned int> {
-	typedef dawgDouble type;
-	typedef double default_type;
+	typedef dawgIntegar type;
+	typedef int default_type;
 };
 
 class DawgGUI : public wxApp
@@ -36,6 +38,7 @@ class DawgGUI : public wxApp
 public:
 	DawgGUI();
 	virtual bool OnInit();
+	virtual int OnExit();
 	dawgFrame *frame;
 	dawgPage  *subst, *indel, *root, *output, *sim, *tree;
 	

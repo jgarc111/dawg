@@ -26,11 +26,15 @@ bool DawgGUI::OnInit()
 	return true;
 }
 
-DawgGUI::~DawgGUI()
+int DawgGUI::OnExit()
 {
 	#define XM(name, atype, def) delete _V(name);
 	#include "dawgma.xmh"
 	#undef XM
 	delete subst, indel, root, output, sim, tree;
-	delete frame;
+	return 0;
+}
+
+DawgGUI::~DawgGUI()
+{
 }

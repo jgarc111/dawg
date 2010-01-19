@@ -11,5 +11,4 @@ dawgBool::dawgBool(dawgPage* page, const wxString& key, bool def)
 
 dawgBool::~dawgBool(void)
 {
-	delete label, checkbox;
 }

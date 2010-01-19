@@ -1,6 +1,8 @@
 #pragma once
 #include <wx/wx.h>
 #include <wx/notebook.h>
+#include <wx/toolbook.h>
+#include <wx/listbook.h>
 #include <wx/spinctrl.h>
 
 class dawgFrame :
@@ -11,7 +13,9 @@ public:
 	~dawgFrame(void);
 	wxPanel    *panel;
 	wxBoxSizer *vbox;
-	wxNotebook *notebook;
+	//wxNotebook *book;
+	wxListbook *book;
+	//wxToolbook *book;
 	wxMenuBar  *menubar;
 
 private:

@@ -1,23 +1,27 @@
 #include "frame.h"
 
 dawgFrame::dawgFrame(const wxString& title)
-	: wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(360, 280))
+	: wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(600, 600))
 {
 	Centre();
+
+	menubar = new wxMenuBar;
+	BuildMenuBar(menubar);
+	SetMenuBar(menubar);
+
 	panel = new wxPanel(this);
 	vbox  = new wxBoxSizer(wxVERTICAL);
 	panel->SetSizer(vbox);
 
-	notebook  = new wxNotebook(panel, wxID_ANY);
-	vbox->Add(notebook, 1, wxEXPAND | wxALL, 8);
+	//book  = new wxNotebook(panel, wxID_ANY);
+	book  = new wxListbook(panel, wxID_ANY);
+	//book  = new wxToolbook(panel, wxID_ANY);
+	vbox->Add(book, 1, wxEXPAND | wxALL, 8);
 
 	hbsBottom = new wxBoxSizer(wxHORIZONTAL);
 	BuildBottom(hbsBottom);
 	vbox->Add(hbsBottom, 0, wxALIGN_RIGHT | wxRIGHT | wxBOTTOM, 10);
 
-	menubar = new wxMenuBar;
-	BuildMenuBar(menubar);
-	SetMenuBar(menubar);
 }
 
 void dawgFrame::BuildMenuBar(wxMenuBar* menubar)
@@ -60,5 +64,4 @@ void dawgFrame::OnButtonExit(wxCommandEvent & WXUNUSED(event))
 
 dawgFrame::~dawgFrame(void)
 {
-	delete menubar, hbsBottom, notebook, vbox, panel;
 }

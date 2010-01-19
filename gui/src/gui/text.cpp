@@ -11,5 +11,4 @@ dawgText::dawgText(dawgPage* page, const wxString& key, const std::string& def)
 
 dawgText::~dawgText(void)
 {
-	delete label, textctrl;
 }

@@ -2,11 +2,11 @@
 #include <wx/wx.h>
 #include "page.h"
 
-class dawgDouble
+class dawgIntegar
 {
 public:
-	dawgDouble(dawgPage* page, const wxString& key, double def);
-	~dawgDouble(void);
+	dawgIntegar(dawgPage* page, const wxString& key, int def);
+	~dawgIntegar(void);
 
 private:
 	wxStaticText *label;
