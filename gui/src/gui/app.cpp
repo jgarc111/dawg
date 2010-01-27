@@ -16,9 +16,11 @@ bool DawgGUI::OnInit()
 	sim    = new dawgPage(frame, wxT("Sim"));	
 	tree   = new dawgPage(frame, wxT("Tree"));
 	
-	#define XM(name, atype, def) _V(name) = new dawg_gui_type< atype >::type \
-		(BOOST_PP_SEQ_HEAD(name), wxT(_S(BOOST_PP_SEQ_TAIL(name))), \
-		dawg_gui_type< atype >::default_type(def));
+	//#define XM(name, atype, def) _V(name) = new dawg_gui_type< atype >::type \
+	//	(BOOST_PP_SEQ_HEAD(name), wxT(_S(BOOST_PP_SEQ_TAIL(name))), \
+	//	dawg_gui_type< atype >::default_type(def));
+	#define XM(name, ctype, gtype, def) _V(name) = new gtype \
+		(BOOST_PP_SEQ_HEAD(name), wxT(_S(BOOST_PP_SEQ_TAIL(name))), ctype(def));
 	#include "dawgma.xmh"
 	#undef XM
 
@@ -28,7 +30,7 @@ bool DawgGUI::OnInit()
 
 int DawgGUI::OnExit()
 {
-	#define XM(name, atype, def) delete _V(name);
+	#define XM(name, ctype, gtype, def) delete _V(name);
 	#include "dawgma.xmh"
 	#undef XM
 	delete subst, indel, root, output, sim, tree;

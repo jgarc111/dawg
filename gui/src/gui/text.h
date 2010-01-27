@@ -1,6 +1,5 @@
 #pragma once
 #include <wx/wx.h>
-#include <wx/string.h>
 #include "page.h"
 
 class dawgText

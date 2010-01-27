@@ -13,8 +13,9 @@ IF(wxWidgets_FOUND)
   INCLUDE(${wxWidgets_USE_FILE})
 
   ADD_EXECUTABLE(dawg-gui WIN32 ${PROJ_MACOSX_BUNDLE}
-  	app.cpp frame.cpp page.cpp text.cpp int.cpp double.cpp bool.cpp
-  	app.h frame.h page.h text.h int.h double.h bool.h
+  	app.cpp frame.cpp page.cpp text.cpp int.cpp double.cpp
+  	bool.cpp block.cpp vint.cpp vdouble.cpp vtext.cpp
+  	app.h frame.h page.h text.h int.h double.h bool.h block.h vint.h vdouble.h vtext.h
   	xm.h dawgma.xmh
     "${CMAKE_CURRENT_BINARY_DIR}/../config.h"
     )

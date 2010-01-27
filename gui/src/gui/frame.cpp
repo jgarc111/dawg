@@ -10,17 +10,15 @@ dawgFrame::dawgFrame(const wxString& title)
 	SetMenuBar(menubar);
 
 	panel = new wxPanel(this);
-	vbox  = new wxBoxSizer(wxVERTICAL);
-	panel->SetSizer(vbox);
+	sizer  = new wxBoxSizer(wxVERTICAL);
+	panel->SetSizer(sizer);
 
-	//book  = new wxNotebook(panel, wxID_ANY);
 	book  = new wxListbook(panel, wxID_ANY);
-	//book  = new wxToolbook(panel, wxID_ANY);
-	vbox->Add(book, 1, wxEXPAND | wxALL, 8);
+	sizer->Add(book, 1, wxEXPAND | wxALL, 8);
 
 	hbsBottom = new wxBoxSizer(wxHORIZONTAL);
 	BuildBottom(hbsBottom);
-	vbox->Add(hbsBottom, 0, wxALIGN_RIGHT | wxRIGHT | wxBOTTOM, 10);
+	sizer->Add(hbsBottom, 0, wxALIGN_RIGHT | wxRIGHT | wxBOTTOM, 10);
 
 }
 
