@@ -6,7 +6,6 @@
 #include <boost/lexical_cast.hpp>
 #include "page.h"
 
-
 class dawgVInt
 {
 public:
@@ -18,4 +17,6 @@ public:
 private:
 	wxStaticText *label;
 	wxTextCtrl   *textctrl;
+	std::vector<std::string> vstrDef;
+	wxString wxDef;
 };

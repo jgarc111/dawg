@@ -17,4 +17,6 @@ public:
 private:
 	wxStaticText *label;
 	wxTextCtrl   *textctrl;
+	std::vector<std::string> vstrDef;
+	wxString wxDef;
 };
