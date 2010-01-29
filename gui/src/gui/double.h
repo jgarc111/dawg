@@ -11,4 +11,5 @@ public:
 private:
 	wxStaticText *label;
 	wxTextCtrl   *textctrl;
+	wxString     wxDef;
 };
