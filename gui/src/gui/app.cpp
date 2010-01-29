@@ -6,6 +6,11 @@ DawgGUI::DawgGUI()
 {
 }
 
+template<class self>
+struct self_type {
+	typedef self type;
+};
+
 bool DawgGUI::OnInit()
 {
 	frame  = new dawgFrame(wxT("Dawg Test Frame"));
@@ -15,12 +20,12 @@ bool DawgGUI::OnInit()
 	output = new dawgPage(frame, wxT("Ouput"));	
 	sim    = new dawgPage(frame, wxT("Sim"));	
 	tree   = new dawgPage(frame, wxT("Tree"));
-	
+		
 	//#define XM(name, atype, def) _V(name) = new dawg_gui_type< atype >::type \
 	//	(BOOST_PP_SEQ_HEAD(name), wxT(_S(BOOST_PP_SEQ_TAIL(name))), \
 	//	dawg_gui_type< atype >::default_type(def));
 	#define XM(name, ctype, gtype, def) _V(name) = new gtype \
-		(BOOST_PP_SEQ_HEAD(name), wxT(_S(BOOST_PP_SEQ_TAIL(name))), ctype(def));
+		(BOOST_PP_SEQ_HEAD(name), wxT(_S(BOOST_PP_SEQ_TAIL(name))), self_type< ctype >::type(def));
 	#include "dawgma.xmh"
 	#undef XM
 
