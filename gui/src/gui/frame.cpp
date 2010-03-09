@@ -1,7 +1,8 @@
 #include "frame.h"
 
 dawgFrame::dawgFrame(const wxString& title)
-	: wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(600, 600))
+	: wxFrame(NULL, wxID_ANY, title,
+	wxDefaultPosition, wxSize(600, 600))
 {
 	Centre();
 
@@ -9,7 +10,7 @@ dawgFrame::dawgFrame(const wxString& title)
 	BuildMenuBar(menubar);
 	SetMenuBar(menubar);
 
-	panel = new wxPanel(this);
+	panel  = new wxPanel(this);
 	sizer  = new wxBoxSizer(wxVERTICAL);
 	panel->SetSizer(sizer);
 
@@ -18,7 +19,8 @@ dawgFrame::dawgFrame(const wxString& title)
 
 	hbsBottom = new wxBoxSizer(wxHORIZONTAL);
 	BuildBottom(hbsBottom);
-	sizer->Add(hbsBottom, 0, wxALIGN_RIGHT | wxRIGHT | wxBOTTOM, 10);
+	sizer->Add(hbsBottom, 0,
+		wxALIGN_RIGHT | wxRIGHT | wxBOTTOM, 10);
 
 }
 
@@ -47,12 +49,18 @@ void dawgFrame::BuildMenuBar(wxMenuBar* menubar)
 
 void dawgFrame::BuildBottom(wxBoxSizer* hbsBottom)
 {
-	btnSubmit = new wxButton(panel, wxID_EXIT, wxT("Submit"), wxPoint(20, 400), wxDefaultSize);
+	btnSubmit = new wxButton(panel, DAWG_ID_SUBMIT, wxT("Submit"), wxPoint(20, 400), wxDefaultSize);
 	btnSubmit->SetFocus();
 	btnExit = new wxButton(panel, wxID_EXIT, wxT("Exit"), wxPoint(20, 400), wxDefaultSize);
+	Connect(DAWG_ID_SUBMIT, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(dawgFrame::OnButtonSubmit));
 	Connect(wxID_EXIT, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(dawgFrame::OnButtonExit));
 	hbsBottom->Add(btnSubmit, 0, wxLEFT, 10);
 	hbsBottom->Add(btnExit, 0, wxLEFT, 10);
+}
+
+void dawgFrame::OnButtonSubmit(wxCommandEvent & WXUNUSED(event))
+{
+	// To do
 }
 
 void dawgFrame::OnButtonExit(wxCommandEvent & WXUNUSED(event))

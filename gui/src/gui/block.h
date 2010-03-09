@@ -3,12 +3,16 @@
 #include <wx/wx.h>
 #include "page.h"
 
-#define BLOCK_HEIGHT 48
+#define TEXT_BLOCK_HEIGHT 48
 
 class dawgBlock
 {
 public:
-	dawgBlock(dawgPage* page, const wxString& key, const std::string& def);
+	dawgBlock(dawgPage* page,
+		const wxString& key,
+		const std::string& def);
+	std::string GetValue();
+	std::string GetTextValue();
 	~dawgBlock(void);
 
 private:

@@ -5,7 +5,10 @@
 class dawgIntegar
 {
 public:
-	dawgIntegar(dawgPage* page, const wxString& key, int def);
+	dawgIntegar(dawgPage* page,
+		const wxString& key, unsigned int def);
+	unsigned int GetValue();
+	std::string GetTextValue();
 	~dawgIntegar(void);
 
 private:

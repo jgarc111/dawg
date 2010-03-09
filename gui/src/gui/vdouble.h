@@ -12,6 +12,8 @@ public:
 	dawgVDouble(dawgPage* page,
 		const wxString& key,
 		const std::vector<double>& def);
+	std::vector<double> GetValue();
+	std::string GetTextValue();
 	~dawgVDouble(void);
 
 private:

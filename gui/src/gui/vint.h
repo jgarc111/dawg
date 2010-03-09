@@ -12,6 +12,8 @@ public:
 	dawgVInt(dawgPage* page,
 		const wxString& key,
 		const std::vector<unsigned int>& def);
+	std::vector<unsigned int> GetValue();
+	std::string GetTextValue();
 	~dawgVInt(void);
 
 private:

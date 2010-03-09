@@ -5,7 +5,11 @@
 class dawgDouble
 {
 public:
-	dawgDouble(dawgPage* page, const wxString& key, double def);
+	dawgDouble(dawgPage* page,
+		const wxString& key,
+		double def);
+	double GetValue();
+	std::string GetTextValue();
 	~dawgDouble(void);
 
 private:
