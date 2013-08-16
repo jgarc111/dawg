@@ -16,7 +16,7 @@ class root_model {
 public:
 	bool create(unsigned int len, const std::string &seq,  const std::vector<double> &rates) {
 		root_len = len;
-		name = "stat";
+		name = "stationary";
 		do_op = &root_model::do_stat;
 		return true;
 	}
@@ -28,7 +28,7 @@ public:
 	
 	inline const std::string& label() const {
 		return name;
-	}	
+	}
 
 private:
 	// pointer that will hold our method
@@ -40,9 +40,8 @@ private:
 		for(sequence::iterator it=seq.begin(); it != seq.end(); ++it) {
 			it->base(s(m));
 			it->branch(b);
-			it->rate_scalar(static_cast<residue::rate_type>(r(m)));
+			it->rate_cat(r(m));
 		}
-		
 	}
 	
 	unsigned int root_len;

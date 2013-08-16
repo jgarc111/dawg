@@ -348,8 +348,7 @@ dawg::details::matic_section::evolve_indels(
 				}
 				
 				// insert u "deleted insertions" into buffer
-				child.insert(child.end(), u, residue(gap_base,
-					residue::rate_type(0.0), branch_color));
+				child.insert(child.end(), u, residue(gap_base, 0, branch_color));
 				// remove u sites from both stacks, pop if empty
 			} else if(first != last) {
 				// Deleted Original
@@ -414,8 +413,7 @@ dawg::details::matic_section::evolve_indels(
 			}
 			// Insert u random nucleotides into buffer
 			while(u--)
-				child.push_back(residue(sub_mod(m),
-					static_cast<residue::rate_type>(rat_mod(m)), branch_color));
+				child.push_back(residue(sub_mod(m), rat_mod(m), branch_color));
 		} else {
 			break; // nothing to do
 		}
@@ -444,9 +442,9 @@ void dawg::details::matic_section::evolve(
 		for(;first != last; ++first) {
 			if(first->base() == gap_base)
 				continue;
-			if(d < indel_rate+first->rate_scalar()*uni_scale)
+			if(d < indel_rate+rat_mod.values()[first->rate_cat()]*uni_scale)
 				break;
-			d -= indel_rate+first->rate_scalar()*uni_scale;
+			d -= indel_rate+rat_mod.values()[first->rate_cat()]*uni_scale;
 		}
 		// copy unmodified sites into buffer.
 		child.insert(child.end(), start, first);
@@ -459,7 +457,7 @@ void dawg::details::matic_section::evolve(
 			continue;
 		} else
 			d -= del_rate;
-		double w = first->rate_scalar()*uni_scale;
+		double w = rat_mod.values()[first->rate_cat()]*uni_scale;
 		residue rez = *first;
 		++first;
 		while(d < w) {

@@ -13,6 +13,7 @@ class alias_table {
 public:
 	typedef boost::uint64_t uint64;
 	typedef boost::uint32_t uint32;
+	typedef uint32 category_type;
 	
 	alias_table() { }
 	
@@ -21,13 +22,13 @@ public:
 		create(v);
 	}
 	
-	uint32 get(uint64 u) const {
+	category_type get(uint64 u) const {
 		uint32 x = static_cast<uint32>(u >> shr);
 		uint32 y = static_cast<uint32>(u);
 		return ( y < p[x]) ? x : a[x];
 	}
 	
-	uint32 operator()(uint64 u) const {
+	category_type operator()(uint64 u) const {
 		return get(u);
 	}
 	

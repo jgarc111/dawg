@@ -19,7 +19,6 @@ namespace dawg {
 
 class residue {
 public:
-	typedef float rate_type;
 	typedef boost::uint32_t data_type;
 
 	enum {
@@ -29,53 +28,37 @@ public:
 		branch_inc     =  0x40
 	};
 
-	inline data_type base() const { return _data & base_mask; }
-	inline void base(data_type b) { _data = (b & base_mask) | (_data & ~base_mask); }
+	inline data_type base() const { return data_ & base_mask; }
+	inline void base(data_type b) { data_ = (b & base_mask) | (data_ & ~base_mask); }
 
-	inline data_type branch() const { return _data & branch_mask; }
-	inline void branch(data_type u) { _data = (u & branch_mask) | (_data & ~branch_mask); }
+	inline data_type branch() const { return data_ & branch_mask; }
+	inline void branch(data_type u) { data_ = (u & branch_mask) | (data_ & ~branch_mask); }
 
-	inline data_type data()  const { return _data; }
-	inline void data(data_type d) { _data = d; }
-	inline void data(data_type a, data_type d) {
-		_data = (a & base_mask) | (d & branch_mask);
+	inline data_type data()  const { return data_; }
+	inline void data(data_type d) { data_ = d; }
+	inline void data(data_type base, data_type branch) {
+		data_ = (base & base_mask) | (branch & branch_mask);
 	}
 
 	inline bool is_base(data_type u) const { return (base() == (u & base_mask)); }
 	inline bool is_branch(data_type u) const { return (branch() == (u & branch_mask)); }
 
-	inline rate_type rate_scalar() const {return _rate_scalar;}
-	inline void rate_scalar(rate_type s) {
-		_rate_scalar = s;
-	}
-
-	inline data_type rate_cat() const {return _rate_cat;}
+	inline data_type rate_cat() const {return rate_cat_;}
 	inline void rate_cat(data_type s) {
-		_rate_cat = s;
+		rate_cat_ = s;
 	}
 
-	residue() : _data(0), _rate_scalar(1.0) { }
-	residue(data_type xbase, rate_type xscale, data_type xbranch) :
-		_data((xbase & base_mask) | (xbranch & branch_mask)),
-		_rate_scalar(xscale)
+	residue() : data_(0), rate_cat_(0) { }
+	residue(data_type xbase, data_type xcat, data_type xbranch) :
+		data_((xbase & base_mask) | (xbranch & branch_mask)),
+		rate_cat_(xcat)
 	{
 
 	}
-
-	residue(data_type xbase, data_type xscale, data_type xbranch) :
-		_data((xbase & base_mask) | (xbranch & branch_mask)),
-		_rate_cat(xscale)
-	{
-
-	}
-
 
 protected:
-	data_type  _data;
-	union {
-	rate_type  _rate_scalar;
-	data_type  _rate_cat;
-	};
+	data_type data_;
+	data_type rate_cat_; 
 };
 
 template<class CharType, class CharTrait>
