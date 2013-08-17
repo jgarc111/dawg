@@ -45,9 +45,10 @@ bool dawg::matic::add_config_section(const dawg::ma &ma) {
 		return DAWG_ERROR("substitution model could not be created.");
 	
 	if(seg.empty()) { // new segment
-		if(!seg.rex.model(info->sub_mod.seq_type(), ma.output_markins, ma.output_keepempty))
+		if(!seg.rex.model(info->sub_mod.seq_type(), info->sub_mod.seq_code(),
+			ma.output_rna, ma.output_lowercase, ma.output_markins, ma.output_keepempty))
 			return DAWG_ERROR("failed to create sequence type or format object.");
-	} else if(!seg.rex.is_same_model(info->sub_mod.seq_type(), ma.output_markins, ma.output_keepempty)) {
+	} else if(!seg.rex.is_same_type(info->sub_mod.seq_type(), ma.output_markins, ma.output_keepempty)) {
 		return DAWG_ERROR("the sequence type or format options of a section is different than its segment.");
 	}
 	info->gap_base = seg.rex.gap_base();

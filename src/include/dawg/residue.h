@@ -77,17 +77,17 @@ operator<<(std::basic_ostream<CharType, CharTrait>& o, const dawg::residue &v) {
 
 class residue_exchange {
 public:
-	enum { DNA = 0, RNA=2, AA=4, CODON=6, MODEND=30};
-
+	enum { MODDNA = 0, MODRNA=2, MODAA=4, MODCOD=6, MODEND=30};
+	enum { DNA = 0, AA = 1, CODON = 2};
+	
 	typedef residue_exchange self_type;
 	
 	typedef boost::sub_range< const char [64] > str_type;
 
-	inline bool model(unsigned int code, bool markins=false, bool keepempty=true) {
+	inline bool model(unsigned int type, unsigned int code, bool rna,
+			bool lowercase, bool markins, bool keepempty) {
 		static const char sIns[] = "-+";
 		// table for going from base->char
-		// TODO: standardize Root.Code = xyz so that xy picks the type/translation
-		// table and z picks upper or lowercase
 		// TODO: Allow codons to be translated into aa
 		static const char mods[] =
 			"ACGT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-" // DNA
@@ -137,52 +137,58 @@ public:
 			25,26,27,-1,-1,-1,-1,-1,-1,28,29,30,31,32,33,34,35,36,37,38,
 			39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,-1,-1,-1,-1,-1
 		};
-		
-		unsigned int a = code%100;
-		unsigned int b = code/100;
-		
-		if(a >= MODEND || mods[a*64] == '!')
-			return DAWG_ERROR("invalid genetic code.");
-		_model = code;
-		_markins = markins;
-		_keepempty = keepempty;
+
+		markins_ = markins;
+		keepempty_ = keepempty;
+		lowercase_ = lowercase;
 				
-		cs_decode = &mods[a*64];
-
-		_gap = static_cast<unsigned int>(strchr(cs_decode, '-')-cs_decode);
-
-		if(a < AA)
-			cs_encode = &rmods[0*80];
-		else if(a < CODON)
-			cs_encode = &rmods[1*80];
-		else
-			cs_encode = &rmods[2*80];
-
-		cs_ins = &sIns[(_markins ? 1 : 0)];
+		type_ = type; // set sequence type NA, AA, or CODON
+		nuc_ = ((rna) ? MODRNA : MODDNA) | ((lowercase) ? 1 : 0);
+		code_ = code;
+		if(MODCOD+code_ >= MODEND || mods[(MODCOD+code_)*64] == '!')
+			return DAWG_ERROR("invalid genetic code.");
 		
-		do_op_append =  (a >= CODON && b < AA) ?
+		switch(type_) {
+			case DNA:
+				cs_decode_ = &mods[nuc_*64];
+				break;
+			case AA:
+				cs_decode_ = &mods[(MODAA + (lowercase ? 1 : 0))*64];
+				break;
+			case CODON:
+				cs_decode_ = &mods[(MODCOD+code_)*64];
+				break;
+			default:
+				return DAWG_ERROR("invalid sequence type");
+		}
+		cs_encode_ = &rmods[type_*80];
+		cs_ins_ = &sIns[(markins_ ? 1 : 0)];
+		
+		gap_ = static_cast<unsigned int>(strchr(cs_decode_, '-')-cs_decode_);
+		
+		do_op_append =  (type_ == CODON) ?
 			&residue_exchange::do_op_append_cod :
 			&residue_exchange::do_op_append_res ;
-		do_op_appendi = (a >= CODON && b < AA) ? 
+		do_op_appendi = (type_ == CODON) ? 
 			&residue_exchange::do_op_appendi_cod :
 			&residue_exchange::do_op_appendi_res ;
 		
 		return true;
 	};
-	inline bool is_same_model(unsigned int a, bool markins, bool keepempty) const {
-		return (a == _model && markins == _markins && keepempty == _keepempty);
+	inline bool is_same_type(unsigned int type, bool markins, bool keepempty) const {
+		return (type == type_ && markins == markins_ && keepempty == keepempty_);
 	}
-	inline bool is_keep_empty() const { return _keepempty; }
+	inline bool is_keep_empty() const { return keepempty_; }
 
-	inline residue::data_type gap_base() const { return _gap; }
+	inline residue::data_type gap_base() const { return gap_; }
 
 	inline residue::data_type encode(char ch) const {
-		char ret = (ch >= '0') ? (cs_encode[ch - '0']) : -1;	
+		char ret = (ch >= '0') ? (cs_encode_[ch - '0']) : -1;	
 		return static_cast<residue::data_type>(ret);
 	}
 	
 	inline char decode(residue::data_type r) const {
-		return cs_decode[r & 63];
+		return cs_decode_[r & 63];
 	}
 	
 	inline char decode(const residue &r) const {
@@ -190,7 +196,7 @@ public:
 	}
 	
 	inline char decode_ins() const {
-		return cs_ins[0];
+		return cs_ins_[0];
 	}
 	
 	// codon number -> cod64
@@ -244,7 +250,7 @@ public:
 		return (this->*do_op_appendi)(ss);
 	}
 
-	explicit residue_exchange(int m=DNA) { model(m); }
+	explicit residue_exchange(int m=DNA) { model(m,0,0,false,false,false); }
 	
 	inline static const char* get_protein_code(unsigned int code) {
 		static const char s[] = 
@@ -285,12 +291,12 @@ protected:
 	}
 	void do_op_append_cod(std::string &ss, const residue &r) const {
 		unsigned int b = r.base()&63;
-		if(b == _gap)
+		if(b == gap_)
 			ss.append(3, '-');
-		else if(cs_decode[b] == '!')
+		else if(cs_decode_[b] == '!')
 			ss.append(3, '*');
 		else {
-			unsigned int u = codon_to_triplet(b, _model/100);
+			unsigned int u = codon_to_triplet(b, nuc_);
 			ss.append(1, (char)(u));
 			ss.append(1, (char)(u>>8));
 			ss.append(1, (char)(u>>16));
@@ -303,9 +309,9 @@ protected:
 		ss.append(3, decode_ins());
 	}
 
-	unsigned int _model, _gap;
-	bool _markins, _keepempty, _translate;
-	const char *cs_decode, *cs_ins, *cs_encode;
+	unsigned int type_, code_, nuc_, gap_;
+	bool markins_, keepempty_, lowercase_;
+	const char *cs_decode_, *cs_ins_, *cs_encode_;
 };
 
 }

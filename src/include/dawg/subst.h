@@ -34,7 +34,8 @@ public:
 
 	inline const std::string& label() const { return name; }
 	inline double uniform_scale() const { return uni_scale; }
-	inline int seq_type() const { return _model; }
+	inline unsigned int seq_type() const { return type_; }
+	inline unsigned int seq_code() const { return code_; }
 	
 	template<typename It1, typename It2>
 	bool create(const char *mod_name, unsigned int code, It1 first1, It1 last1, It2 first2, It2 last2);
@@ -53,7 +54,8 @@ private:
 	
 	double uni_scale;
 	std::string name;
-	unsigned int _model;
+	unsigned int code_;
+	unsigned int type_;
 
 	inline static void remove_stops(unsigned int code, double (&s)[64][64], double (&f)[64]);
 	inline static const char* get_codon_diff_upper();
