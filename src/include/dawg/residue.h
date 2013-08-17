@@ -5,6 +5,13 @@
  *  Copyright (C) 2009-2010 Reed A. Cartwright, PhD <reed@scit.us>          *
  ****************************************************************************/
 
+#ifndef __STDC_CONSTANT_MACROS
+#	define __STDC_CONSTANT_MACROS 1
+#endif
+#ifndef __STDC_LIMIT_MACROS
+#	define __STDC_LIMIT_MACROS 1
+#endif
+
 #include <vector>
 #include <iostream>
 #include <algorithm>
@@ -22,9 +29,9 @@ public:
 	typedef boost::uint64_t data_type;
 
 	enum {
-		base_mask      =  0x00000000000000FF,
-		branch_mask    =  0x0000FFFFFFFFFF00,
-		rate_mask	   =  0xFFFF000000000000,
+		base_mask      =  UINT64_C(0x00000000000000FF),
+		branch_mask    =  UINT64_C(0x0000FFFFFFFFFF00),
+		rate_mask	   =  UINT64_C(0xFFFF000000000000),
 		rate_shift     =  48,
 		base_bit_width =  8,
 		branch_inc     =  0x100
@@ -48,19 +55,6 @@ public:
 	inline bool is_base(data_type u) const { return (base() == (u & base_mask)); }
 	inline bool is_branch(data_type u) const { return (branch() == (u & branch_mask)); }
 
-/*	inline data_type rate_cat() const {return rate_cat_;}
-	inline void rate_cat(data_type s) {
-		rate_cat_ = s;
-	}
-
-	residue() : data_(0), rate_cat_(0) { }
-	residue(data_type xbase, data_type xcat, data_type xbranch) :
-		data_((xbase & base_mask) | (xbranch & branch_mask)),
-		rate_cat_(xcat)
-	{
-
-	}
-*/
 	residue() : data_(0)  { }
 	residue(data_type n, data_type r, data_type b) :
 		data_((n & base_mask) | (b & branch_mask) | (r << rate_shift))
@@ -71,7 +65,6 @@ public:
 
 protected:
 	data_type data_;
-	//data_type rate_cat_;
 };
 
 template<class CharType, class CharTrait>
