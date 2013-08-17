@@ -504,8 +504,8 @@ void dawg::matic::align(alignment& aln, const seq_buffers_type &seqs, const resi
 
 	unsigned int uStateQuit = rex.is_keep_empty() ? 0x2 : 0x3; 
 		                                          
-	unsigned int uBranch = 0;
-	unsigned int uBranchN = 0;
+	residue::data_type uBranch = 0, uBranchN = 0;
+
 	// Go through each column, adding gaps where neccessary
 	for(;;) {
 		unsigned int uState =  uStateQuit; // Set to quit

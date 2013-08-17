@@ -39,8 +39,8 @@ private:
 		seq.resize(root_len);
 		for(sequence::iterator it=seq.begin(); it != seq.end(); ++it) {
 			it->base(s(m));
-			it->branch(b);
 			it->rate_cat(r(m));
+			it->branch(b);
 		}
 	}
 	

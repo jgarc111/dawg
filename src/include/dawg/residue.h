@@ -28,14 +28,13 @@ class residue {
 public:
 	typedef boost::uint64_t data_type;
 
-	enum {
-		base_mask      =  UINT64_C(0x00000000000000FF),
-		branch_mask    =  UINT64_C(0x0000FFFFFFFFFF00),
-		rate_mask	   =  UINT64_C(0xFFFF000000000000),
-		rate_shift     =  48,
-		base_bit_width =  8,
-		branch_inc     =  0x100
-	};
+	
+	static const data_type base_mask      =  UINT64_C(0x00000000000000FF);
+	static const data_type branch_mask    =  UINT64_C(0x0000FFFFFFFFFF00);
+	static const data_type rate_mask	  =  UINT64_C(0xFFFF000000000000);
+	static const data_type rate_shift     =  48;
+	static const data_type base_bit_width =  8;
+	static const data_type branch_inc     =  0x100;
 
 	inline data_type base() const { return data_ & base_mask; }
 	inline void base(data_type b) { data_ = (b & base_mask) | (data_ & ~base_mask); }
