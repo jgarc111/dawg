@@ -19,13 +19,15 @@ namespace dawg {
 
 class residue {
 public:
-	typedef boost::uint32_t data_type;
+	typedef boost::uint64_t data_type;
 
 	enum {
-		base_mask      =  0x3F, // 00111111
-		base_bit_width =  6,
-		branch_mask    = ~0x3F,
-		branch_inc     =  0x40
+		base_mask      =  0x00000000000000FF,
+		branch_mask    =  0x0000FFFFFFFFFF00,
+		rate_mask	   =  0xFFFF000000000000,
+		rate_shift     =  48,
+		base_bit_width =  8,
+		branch_inc     =  0x100
 	};
 
 	inline data_type base() const { return data_ & base_mask; }
@@ -34,16 +36,19 @@ public:
 	inline data_type branch() const { return data_ & branch_mask; }
 	inline void branch(data_type u) { data_ = (u & branch_mask) | (data_ & ~branch_mask); }
 
+	inline data_type rate_cat() const { return data_ >> rate_shift; }
+	inline void rate_cat(data_type k) { data_ = (k << rate_shift) | (data_ & ~rate_mask); }
+
 	inline data_type data()  const { return data_; }
 	inline void data(data_type d) { data_ = d; }
-	inline void data(data_type base, data_type branch) {
-		data_ = (base & base_mask) | (branch & branch_mask);
+	inline void data(data_type n, data_type r, data_type b) {
+		data_ = (n & base_mask) | (b & branch_mask) | (r << rate_shift);
 	}
 
 	inline bool is_base(data_type u) const { return (base() == (u & base_mask)); }
 	inline bool is_branch(data_type u) const { return (branch() == (u & branch_mask)); }
 
-	inline data_type rate_cat() const {return rate_cat_;}
+/*	inline data_type rate_cat() const {return rate_cat_;}
 	inline void rate_cat(data_type s) {
 		rate_cat_ = s;
 	}
@@ -55,10 +60,18 @@ public:
 	{
 
 	}
+*/
+	residue() : data_(0)  { }
+	residue(data_type n, data_type r, data_type b) :
+		data_((n & base_mask) | (b & branch_mask) | (r << rate_shift))
+	{
+
+	}
+
 
 protected:
 	data_type data_;
-	data_type rate_cat_; 
+	//data_type rate_cat_;
 };
 
 template<class CharType, class CharTrait>
