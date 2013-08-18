@@ -12,7 +12,8 @@
 #include <dawg/utils.h>
 #include <dawg/log.h>
 #include <dawg/residue.h>
- 
+#include <dawg/utils/aliastable.h>
+
 namespace dawg {
  
 class subst_model {
@@ -21,15 +22,11 @@ public:
 		
 	// return random base from stat. dist.
 	inline base_type operator()(mutt &m) const {
-		boost::uint64_t u = m.rand_uint64();
-		boost::uint32_t x = (u >> 58);
-		return ((u << 6) < stat_dist_p[x]) ? x : stat_dist_a[x];
+		return stat_dist(m.rand_uint64());
 	}
 	// return random mutant base
 	inline base_type operator()(mutt &m, base_type n) const {
-		boost::uint64_t u = m.rand_uint64();
-		boost::uint32_t x = (u >> 58);
-		return ((u << 6) < mutation_p[n][x]) ? x : mutation_a[n][x];
+		return mutation[n](m.rand_uint64());
 	}
 
 	inline const std::string& label() const { return name; }
@@ -45,11 +42,9 @@ private:
 	double freqs[64];
 	double table[64][64];
 	
-	boost::uint32_t stat_dist_a[64];
-	boost::uint64_t stat_dist_p[64];
-	boost::uint32_t mutation_a[64][64];
-	boost::uint64_t mutation_p[64][64];
-	
+	alias_table stat_dist;
+	std::vector<alias_table> mutation;
+		
 	bool create_alias_tables();
 	
 	double uni_scale;
@@ -60,6 +55,19 @@ private:
 	inline static void remove_stops(unsigned int code, double (&s)[64][64], double (&f)[64]);
 	inline static const char* get_codon_diff_upper();
 	
+	inline std::size_t model_size() const {
+		switch(seq_type()) {
+		case dawg::residue_exchange::DNA:
+			return 4;
+		case dawg::residue_exchange::AA:
+			return 20;
+		case dawg::residue_exchange::CODON:
+		default: 
+			break;
+		}
+		return 64;
+	}
+
 	template<typename It1, typename It2>
 	bool create_freqs(const char *mod_name, It1 first1, It1 last1, It2 first2, It2 last2, unsigned int ncol=0) const;
 
