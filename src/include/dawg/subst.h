@@ -31,12 +31,15 @@ public:
 
 	inline const std::string& label() const { return name; }
 	inline double uniform_scale() const { return uni_scale; }
+	inline double uniform_rate_scale() const { return uni_rate_scale_; }
 	inline unsigned int seq_type() const { return type_; }
 	inline unsigned int seq_code() const { return code_; }
 	
 	template<typename It1, typename It2>
 	bool create(const char *mod_name, unsigned int code, It1 first1, It1 last1, It2 first2, It2 last2);
 	
+	bool uniformize_over_rates(const std::vector<double> &rates);
+
 private:
 	// must hold at least 64 different characters
 	double freqs[64];
@@ -44,10 +47,13 @@ private:
 	
 	alias_table stat_dist_table_;
 	std::vector<alias_table> mutation_table_;
-		
+
+	std::vector< std::vector< alias_table > > rate_mutation_table_;
+	
 	bool create_alias_tables();
 	
 	double uni_scale;
+	double uni_rate_scale_;
 	std::string name;
 	unsigned int code_;
 	unsigned int type_;

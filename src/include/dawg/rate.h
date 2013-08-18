@@ -38,8 +38,8 @@ public:
 	template<typename It>
 	inline bool create_const(It first, It last) {
 		name_ = "const";
-		std::vector<double> weights(1, 1.0);
-		sample_.create_inplace(weights);
+		weights_.assign(1, 1.0);
+		sample_.create(weights_);
 		values_.assign(1, 1.0f);
 		return true;
 	}
@@ -73,9 +73,9 @@ public:
 		
 		// construct weights
 		double gw = (1.0-iota)/sz;
-		std::vector<double> weights(1+sz, gw);
-		weights[0] = iota;
-		sample_.create_inplace(weights);
+		weights_.assign(1+sz, gw);
+		weights_[0] = iota;
+		sample_.create(weights_);
 		
 		// construct values
 		values_.assign(1+sz,0.0f);
@@ -125,6 +125,7 @@ public:
 private:
 		
 	alias_table sample_;
+	std::vector<double> weights_;
 	std::vector<double> values_;
 	std::string name_;
 };
