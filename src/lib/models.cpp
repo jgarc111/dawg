@@ -8,9 +8,9 @@
 
 bool dawg::subst_model::create_alias_tables() {
 	std::size_t sz = model_size();
-	stat_dist.create(&freqs[0], &freqs[sz]);
-	mutation.resize(sz);
+	stat_dist_table_.create(&freqs[0], &freqs[sz]);
+	mutation_table_.resize(sz);
 	for(std::size_t k = 0; k < sz; ++k)
-		mutation[k].create(&table[k][0], &table[k][sz]);
+		mutation_table_[k].create(&table[k][0], &table[k][sz]);
 	return true;
 }

@@ -22,11 +22,11 @@ public:
 		
 	// return random base from stat. dist.
 	inline base_type operator()(mutt &m) const {
-		return stat_dist(m.rand_uint64());
+		return stat_dist_table_(m.rand_uint64());
 	}
 	// return random mutant base
 	inline base_type operator()(mutt &m, base_type n) const {
-		return mutation[n](m.rand_uint64());
+		return mutation_table_[n](m.rand_uint64());
 	}
 
 	inline const std::string& label() const { return name; }
@@ -42,8 +42,8 @@ private:
 	double freqs[64];
 	double table[64][64];
 	
-	alias_table stat_dist;
-	std::vector<alias_table> mutation;
+	alias_table stat_dist_table_;
+	std::vector<alias_table> mutation_table_;
 		
 	bool create_alias_tables();
 	
