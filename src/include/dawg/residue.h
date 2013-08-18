@@ -140,7 +140,8 @@ public:
 		markins_ = markins;
 		keepempty_ = keepempty;
 		lowercase_ = lowercase;
-				
+		rna_ = rna;
+
 		type_ = type; // set sequence type NA, AA, or CODON
 		nuc_ = ((rna) ? MODRNA : MODDNA) | ((lowercase) ? 1 : 0);
 		code_ = code;
@@ -316,7 +317,7 @@ protected:
 	}
 
 	unsigned int type_, code_, nuc_, gap_;
-	bool markins_, keepempty_, lowercase_;
+	bool rna_, markins_, keepempty_, lowercase_;
 	const char *cs_decode_, *cs_ins_, *cs_encode_;
 };
 
