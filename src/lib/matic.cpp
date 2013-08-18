@@ -39,23 +39,26 @@ bool dawg::matic::add_config_section(const dawg::ma &ma) {
 	std::auto_ptr<section> info(new section);
 	
 	// construct models
+	if(!info->rat_mod.create(ma.subst_rate_model, ma.subst_rate_params.begin(),
+		ma.subst_rate_params.end()))
+		return DAWG_ERROR("heterogenous rate model could not be created.");
+
 	if(!info->sub_mod.create(ma.subst_model.c_str(), ma.root_code,
 		ma.subst_params.begin(), ma.subst_params.end(),
 		ma.subst_freqs.begin(), ma.subst_freqs.end()))
 		return DAWG_ERROR("substitution model could not be created.");
-	
+
+	// TODO: do we really want to allow only one residue exchange per segment?
 	if(seg.empty()) { // new segment
 		if(!seg.rex.model(info->sub_mod.seq_type(), info->sub_mod.seq_code(),
 			ma.output_rna, ma.output_lowercase, ma.output_markins, ma.output_keepempty))
 			return DAWG_ERROR("failed to create sequence type or format object.");
-	} else if(!seg.rex.is_same_type(info->sub_mod.seq_type(), ma.output_markins, ma.output_keepempty)) {
+	} else if(!seg.rex.is_same_model(info->sub_mod.seq_type(), ma.output_rna,
+			ma.output_lowercase, ma.output_markins, ma.output_keepempty)) {
 		return DAWG_ERROR("the sequence type or format options of a section is different than its segment.");
 	}
 	info->gap_base = seg.rex.gap_base();
 	
-	if(!info->rat_mod.create(ma.subst_rate_model, ma.subst_rate_params.begin(),
-		ma.subst_rate_params.end()))
-		return DAWG_ERROR("heterogenous rate model could not be created.");
 	if(!info->ins_mod.create(ma.indel_model_ins.begin(), ma.indel_model_ins.end(),
 		ma.indel_rate_ins.begin(), ma.indel_rate_ins.end(),
 		ma.indel_params_ins.begin(), ma.indel_params_ins.end(), ma.indel_max_ins))
