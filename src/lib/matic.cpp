@@ -461,7 +461,12 @@ void dawg::details::matic_section::evolve(
 		*/
 		
 		// identify offset and remainder
-		boost::int64_t offset = static_cast<boost::int64_t>(d/(indel_rate+uni_scale));
+		double doffset = d/(indel_rate+uni_scale);
+		if(doffset > 4294967295.0) {
+			child.insert(child.end(), first, last);
+			break;
+		}
+		int offset = static_cast<int>(doffset);
 		double dd = fmod(d, indel_rate+uni_scale);
 		// check to see if offset is beyond end of sequence
 		if(last-first <= offset) {
@@ -518,7 +523,7 @@ struct aligner_data {
 
 void dawg::matic::align(alignment& aln, const seq_buffers_type &seqs, const residue_exchange &rex) {
 	assert(aln.size() <= seqs.size());
-	
+
 	//unsigned uFlags = 0; //temporary
 	
 	// construct a table to hold alignment information
