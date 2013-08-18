@@ -19,6 +19,7 @@ namespace dawg {
 class subst_model {
 public:
 	typedef dawg::residue::data_type base_type;
+	typedef dawg::residue::data_type rate_cat_type;
 		
 	// return random base from stat. dist.
 	inline base_type operator()(mutt &m) const {
@@ -27,6 +28,9 @@ public:
 	// return random mutant base
 	inline base_type operator()(mutt &m, base_type n) const {
 		return mutation_table_[n](m.rand_uint64());
+	}
+	inline base_type operator()(mutt &m, base_type n, rate_cat_type c) const {
+		return rate_mutation_table_[c][n](m.rand_uint64());
 	}
 
 	inline const std::string& label() const { return name; }

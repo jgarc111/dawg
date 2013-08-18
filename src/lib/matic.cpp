@@ -47,13 +47,15 @@ bool dawg::matic::add_config_section(const dawg::ma &ma) {
 		ma.subst_params.begin(), ma.subst_params.end(),
 		ma.subst_freqs.begin(), ma.subst_freqs.end()))
 		return DAWG_ERROR("substitution model could not be created.");
+	info->sub_mod.uniformize_over_rates(info->rat_mod.values());
+
 
 	// TODO: do we really want to allow only one residue exchange per segment?
 	if(seg.empty()) { // new segment
 		if(!seg.rex.model(info->sub_mod.seq_type(), info->sub_mod.seq_code(),
 			ma.output_rna, ma.output_lowercase, ma.output_markins, ma.output_keepempty))
 			return DAWG_ERROR("failed to create sequence type or format object.");
-	} else if(!seg.rex.is_same_model(info->sub_mod.seq_type(), ma.output_rna,
+	} else if(!seg.rex.is_same_model(info->sub_mod.seq_type(), info->sub_mod.seq_code(), ma.output_rna,
 			ma.output_lowercase, ma.output_markins, ma.output_keepempty)) {
 		return DAWG_ERROR("the sequence type or format options of a section is different than its segment.");
 	}
@@ -435,7 +437,8 @@ void dawg::details::matic_section::evolve(
 	
 	const double ins_rate = ins_mod.rate(), del_rate = del_mod.rate();
 	const double indel_rate = ins_rate+del_rate;
-	const double uni_scale = sub_mod.uniform_scale();
+	//const double uni_scale = sub_mod.uniform_scale();
+	const double uni_scale = sub_mod.uniform_scale()*sub_mod.uniform_rate_scale();
 	double d = m.rand_exp(T);
 	for(;;) {
 		sequence::const_iterator start = first;
@@ -443,6 +446,7 @@ void dawg::details::matic_section::evolve(
 		// TODO: Variant for constant rate_scale
 		// TODO: Optimzie out uni_scale multiplication by changing T and indel_rate
 		// TODO: Move to residue_model class
+		/*
 		for(;first != last; ++first) {
 			if(first->base() == gap_base)
 				continue;
@@ -450,10 +454,26 @@ void dawg::details::matic_section::evolve(
 				break;
 			d -= indel_rate+rat_mod.values()[first->rate_cat()]*uni_scale;
 		}
+		*/
+		
+		// identify offset and remainder
+		boost::int64_t offset = static_cast<boost::int64_t>(d/(indel_rate+uni_scale));
+		d = fmod(d, indel_rate+uni_scale);
+		first = start + offset;
+		// check to see if offset is beyond end of sequence
+		if(first > last) {
+			child.insert(child.end(), start, last);
+			break;
+		}
+		// check to see if we landed on a gap
+		if(first->base() == gap_base) {
+			++first;
+			child.insert(child.end(), start, first);
+			d = m.rand_exp(T);
+			continue;
+		}
 		// copy unmodified sites into buffer.
 		child.insert(child.end(), start, first);
-		if(first == last)
-			break;
 		if(d < del_rate) {
 			indels.del.push(indel_data::element(d/del_rate, del_mod(m)));
 			first = evolve_indels(child, indels, T, branch_color, first, last, m);
@@ -461,11 +481,13 @@ void dawg::details::matic_section::evolve(
 			continue;
 		} else
 			d -= del_rate;
-		double w = rat_mod.values()[first->rate_cat()]*uni_scale;
+		//double w = rat_mod.values()[first->rate_cat()]*uni_scale;
+		double w = uni_scale;
 		residue rez = *first;
 		++first;
 		while(d < w) {
-			rez.base(sub_mod(m,rez.base()));
+			//rez.base(sub_mod(m,rez.base()));
+			rez.base(sub_mod(m,rez.base(),rez.rate_cat()));
 			d += m.rand_exp(T);
 		}
 		d -= w;
