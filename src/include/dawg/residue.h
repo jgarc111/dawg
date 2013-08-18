@@ -177,6 +177,13 @@ public:
 	inline bool is_same_type(unsigned int type, bool markins, bool keepempty) const {
 		return (type == type_ && markins == markins_ && keepempty == keepempty_);
 	}
+	inline bool is_same_model(unsigned int type, unsigned int code, bool rna,
+			bool lowercase, bool markins, bool keepempty) const {
+		return ( type == type_       && code == code_
+			  && rna  == rna_        && lowercase == lowercase_
+			  && markins == markins_ && keepempty == keepempty_
+			  );
+	}
 	inline bool is_keep_empty() const { return keepempty_; }
 
 	inline residue::data_type gap_base() const { return gap_; }
