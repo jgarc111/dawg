@@ -431,7 +431,11 @@ void dawg::details::matic_section::evolve(
 		sequence &child, indel_data &indels, double T, residue::data_type branch_color,
 		sequence::const_iterator first, sequence::const_iterator last,
 		mutt &m) const {
-		
+	
+	if(T <= 0.0) {
+		child.insert(child.end(), first, last);
+		return;
+	}
 	//process any existing indels.
 	first = evolve_indels(child, indels, T, branch_color, first, last, m);
 	
@@ -458,13 +462,13 @@ void dawg::details::matic_section::evolve(
 		
 		// identify offset and remainder
 		boost::int64_t offset = static_cast<boost::int64_t>(d/(indel_rate+uni_scale));
-		d = fmod(d, indel_rate+uni_scale);
-		first = start + offset;
+		double dd = fmod(d, indel_rate+uni_scale);
 		// check to see if offset is beyond end of sequence
-		if(first > last) {
-			child.insert(child.end(), start, last);
+		if(last-first <= offset) {
+			child.insert(child.end(), first, last);
 			break;
 		}
+		first = first + offset;
 		// check to see if we landed on a gap
 		if(first->base() == gap_base) {
 			++first;
@@ -472,6 +476,7 @@ void dawg::details::matic_section::evolve(
 			d = m.rand_exp(T);
 			continue;
 		}
+		d = dd;
 		// copy unmodified sites into buffer.
 		child.insert(child.end(), start, first);
 		if(d < del_rate) {
