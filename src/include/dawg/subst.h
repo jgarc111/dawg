@@ -21,32 +21,40 @@ public:
 	typedef dawg::residue::data_type base_type;
 	typedef dawg::residue::data_type rate_cat_type;
 
-	/*
+	
 	// return random base from stat. dist.
 	inline base_type operator()(mutt &m) const {
-		return stat_dist_table_(m.rand_uint64());
+		// since we know what shr is, roll our own get function
+		boost::uint64_t u = m.rand_uint64();
+		base_type x = static_cast<base_type>(u >> 58);
+		boost::uint32_t y = static_cast<boost::uint32_t>(u);
+		return ( y < stat_dist_table_.p()[x]) ? x : stat_dist_table_.a()[x];
 	}
 	// return random mutant base
 	inline base_type operator()(mutt &m, base_type n) const {
-		return mutation_table_[n](m.rand_uint64());
+		boost::uint64_t u = m.rand_uint64();
+		base_type x = static_cast<base_type>(u >> 58);
+		boost::uint32_t y = static_cast<boost::uint32_t>(u);
+		return ( y < mutation_table_[n].p()[x]) ? x : mutation_table_[n].a()[x];
 	}
+	/*
 	inline base_type operator()(mutt &m, base_type n, rate_cat_type c) const {
 		return rate_mutation_table_[c][n](m.rand_uint64());
 	}
 	*/
 
-	// return random base from stat. dist.
-	inline base_type operator()(mutt &m) const {
-		boost::uint64_t u = m.rand_uint64();
-		boost::uint32_t x = (u >> 58);
-		return ((u << 6) < stat_dist_p_[x]) ? x : stat_dist_a_[x];
-	}
-	// return random mutant base
-	inline base_type operator()(mutt &m, base_type n) const {
-		boost::uint64_t u = m.rand_uint64();
-		boost::uint32_t x = (u >> 58);
-		return ((u << 6) < mutation_p_[n][x]) ? x : mutation_a_[n][x];
-	}
+	//// return random base from stat. dist.
+	//inline base_type operator()(mutt &m) const {
+	//	boost::uint64_t u = m.rand_uint64();
+	//	boost::uint32_t x = (u >> 58);
+	//	return ((u << 6) < stat_dist_p_[x]) ? x : stat_dist_a_[x];
+	//}
+	//// return random mutant base
+	//inline base_type operator()(mutt &m, base_type n) const {
+	//	boost::uint64_t u = m.rand_uint64();
+	//	boost::uint32_t x = (u >> 58);
+	//	return ((u << 6) < mutation_p_[n][x]) ? x : mutation_a_[n][x];
+	//}
 
 
 	inline const std::string& label() const { return name; }
@@ -66,15 +74,17 @@ private:
 	double table[64][64];
 	
 	alias_table stat_dist_table_;
-	std::vector<alias_table> mutation_table_;
+	alias_table mutation_table_[64];
 
 	std::vector< std::vector< alias_table > > rate_mutation_table_;
 	
+	/*
 	boost::uint32_t stat_dist_a_[64];
 	boost::uint64_t stat_dist_p_[64];
 	boost::uint32_t mutation_a_[64][64];
 	boost::uint64_t mutation_p_[64][64];
-	
+	*/
+
 	bool create_alias_tables();
 	
 	double uni_scale;

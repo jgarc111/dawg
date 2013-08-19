@@ -8,6 +8,7 @@
 #include <algorithm>
 
 bool dawg::subst_model::uniformize_over_rates(const std::vector<double> &rates) {
+	return true;
 	std::size_t sz = model_size();
 	std::vector<double> work(sz, 0.0);
 	rate_mutation_table_.resize(rates.size());
@@ -34,6 +35,7 @@ bool dawg::subst_model::uniformize_over_rates(const std::vector<double> &rates) 
 	uni_rate_scale_ = max_rate;
 	return true;
 }
+
 
 inline boost::uint64_t uint64_bound(double bound) {
 	assert((0.0 <= bound && bound < 1.0));
@@ -92,20 +94,19 @@ void alias_table_64(const double *pp, boost::uint64_t *q, boost::uint32_t *a) {
 	}
 }
 
+
+/*
 bool dawg::subst_model::create_alias_tables() {
 	alias_table_64(&freqs[0], &stat_dist_p_[0], &stat_dist_a_[0]);
 	for(int i=0;i<64;++i)
 		alias_table_64(&table[i][0], &mutation_p_[i][0], &mutation_a_[i][0]);
 	return true;
 }
+*/
 
-/*
 bool dawg::subst_model::create_alias_tables() {
-	std::size_t sz = model_size();
-	stat_dist_table_.create(&freqs[0], &freqs[sz]);
-	mutation_table_.resize(sz);
-	for(std::size_t k = 0; k < sz; ++k)
-		mutation_table_[k].create(&table[k][0], &table[k][sz]);
+	stat_dist_table_.create(&freqs[0], &freqs[64]);
+	for(std::size_t k = 0; k < 64; ++k)
+		mutation_table_[k].create(&table[k][0], &table[k][64]);
 	return true;
 }
-*/
