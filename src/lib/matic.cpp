@@ -441,8 +441,8 @@ void dawg::details::matic_section::evolve(
 	
 	const double ins_rate = ins_mod.rate(), del_rate = del_mod.rate();
 	const double indel_rate = ins_rate+del_rate;
-	//const double uni_scale = sub_mod.uniform_scale();
-	const double uni_scale = sub_mod.uniform_scale()*sub_mod.uniform_rate_scale();
+	const double uni_scale = sub_mod.uniform_scale();
+	//const double uni_scale = sub_mod.uniform_scale()*sub_mod.uniform_rate_scale();
 	double d = m.rand_exp(T);
 	for(;;) {
 		sequence::const_iterator start = first;
@@ -450,30 +450,25 @@ void dawg::details::matic_section::evolve(
 		// TODO: Variant for constant rate_scale
 		// TODO: Optimzie out uni_scale multiplication by changing T and indel_rate
 		// TODO: Move to residue_model class
-		/*
+		
 		for(;first != last; ++first) {
-			if(first->base() == gap_base)
-				continue;
+			//if(first->base() == gap_base)
+			//	continue;
 			if(d < indel_rate+rat_mod.values()[first->rate_cat()]*uni_scale)
 				break;
 			d -= indel_rate+rat_mod.values()[first->rate_cat()]*uni_scale;
 		}
+		
+		/*
+		for(;d >= indel_rate+uni_scale && first != last; ++first,d -= indel_rate+uni_scale) {
+		}
 		*/
 		
-		// identify offset and remainder
-		double doffset = d/(indel_rate+uni_scale);
-		if(doffset > 4294967295.0) {
-			child.insert(child.end(), first, last);
-			break;
-		}
-		int offset = static_cast<int>(doffset);
-		double dd = fmod(d, indel_rate+uni_scale);
 		// check to see if offset is beyond end of sequence
-		if(last-first <= offset) {
-			child.insert(child.end(), first, last);
+		if(first == last) {
+			child.insert(child.end(), start, first);
 			break;
 		}
-		first = first + offset;
 		// check to see if we landed on a gap
 		if(first->base() == gap_base) {
 			++first;
@@ -481,7 +476,6 @@ void dawg::details::matic_section::evolve(
 			d = m.rand_exp(T);
 			continue;
 		}
-		d = dd;
 		// copy unmodified sites into buffer.
 		child.insert(child.end(), start, first);
 		if(d < del_rate) {
@@ -491,13 +485,13 @@ void dawg::details::matic_section::evolve(
 			continue;
 		} else
 			d -= del_rate;
-		//double w = rat_mod.values()[first->rate_cat()]*uni_scale;
-		double w = uni_scale;
+		double w = rat_mod.values()[first->rate_cat()]*uni_scale;
+		//double w = uni_scale;
 		residue rez = *first;
 		++first;
 		while(d < w) {
-			//rez.base(sub_mod(m,rez.base()));
-			rez.base(sub_mod(m,rez.base(),rez.rate_cat()));
+			rez.base(sub_mod(m,rez.base()));
+			//rez.base(sub_mod(m,rez.base(),rez.rate_cat()));
 			d += m.rand_exp(T);
 		}
 		d -= w;
