@@ -37,11 +37,11 @@ public:
 		boost::uint32_t y = static_cast<boost::uint32_t>(u);
 		return ( y < mutation_table_[n].p()[x]) ? x : mutation_table_[n].a()[x];
 	}
-	/*
+	
 	inline base_type operator()(mutt &m, base_type n, rate_cat_type c) const {
 		return rate_mutation_table_[c][n](m.rand_uint64());
 	}
-	*/
+	
 
 	//// return random base from stat. dist.
 	//inline base_type operator()(mutt &m) const {
