@@ -1,4 +1,8 @@
 ###############################################################################
+# Examples directory for test data files
+set(EXAMPLES_DIR "${CMAKE_SOURCE_DIR}/examples/")
+
+###############################################################################
 # Determine the location of the executables/scripts and any data sets required for full package testing
 set(DAWG_EXE ${CMAKE_BINARY_DIR}/src/dawg)
 
@@ -29,6 +33,8 @@ endmacro()
 add_test(Source.CheckBuildDir ${CMAKE_COMMAND} -E md5sum "${CMAKE_SOURCE_DIR}/build/.gitkeep")
 set_tests_properties(Source.CheckBuildDir PROPERTIES
         PASS_REGULAR_EXPRESSION "d41d8cd98f00b204e9800998ecf8427e"
-        )
+)
 
 add_subdirectory(Unit)
+
+AddCMakeTest(Dawg.Run "" "Build.dawg")

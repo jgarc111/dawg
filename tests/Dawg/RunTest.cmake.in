@@ -1,7 +1,7 @@
-set(Help-CMD @DAWG_CALL_EXE@ --help)
+set(Help-CMD "@DAWG_EXE@" --help)
 set(Help-WD ".")
 set(Help-RESULT 0)
-set(Help-STDERR "Usage:\n  dawg")
+set(Help-STDERR "Usage:\n[^\n]*dawg ")
 
 include("@CMAKE_CURRENT_SOURCE_DIR@/CheckProcessTest.cmake")
 
